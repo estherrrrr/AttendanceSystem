@@ -1,0 +1,35 @@
+整合过程：
+1、新建springboot项目，将SBM中的pom文件拷贝过来。
+2、将SSM整合过的Shop项目的src中的代码引入，其中entity、dao、mapper里的类不用修改。
+3、参照web章节内容，给新项目添加统一的前后台交互对象JsonResult。
+	· 改造JsonResult添加pagedatas用来适配PageHelper
+	· 改造JsonResult添加rows和total用来适配bootstrap-table，这两个属性只需要get方法
+4、同上，将json统一异常处理功能也一并引入，并作出适应性优化：
+	· 枚举内容优化，针对增删改查做特定的错误输出
+	· 添加ErrorThrowAspect用于针对service层出现的异常自动抛出指定错误，如：调用包含add的方法就抛出"添加失败"等
+5、！！页面改造开始：引入相关插件文件：js/css/font/image...到static静态文件夹中
+6、(*可省略)参照thymeleaf章节，将传统页面跳转的统一异常处理功能添加到项目中，涉及到error文件夹要放到static中
+7、添加页面操作新工具：
+	· restful.js：可以做表格数据的打包和赋值，可以做一系列restful风格的数据提交（欢迎自主定制）
+	· tip.js：定制的的bootstrap弹框插件。使用简单方便，一般用于做弹出判断。
+	· toastr.js：成熟的提示框插件。可以定制显示位置
+	· bootstrap-table.js：（核心）企业级的表格插件：http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/
+	· loader.js：（重要）js方式加载所有的插件，并确保不会出现路径问题。
+					注意：style.css不要放到loader.js中，会和custom-styles.css起冲突。
+8、改造shop项目中的part文件夹，将header和menu合并，后续用thymeleaf的th:replace将他们分别引入到指定页面上
+9、！！开始页面和控制器交互：这里注意除了登录和通用控制器采用传统跳转，其余控制器皆是restful风格
+10、添加通用控制器，适配menu中功能跳转，原因：thymeleaf下页面无法直接访问，只能通过转发。
+11、在除了LoginController以外所有控制器上添加路径前缀"**.do"，以便后续拦截器做访问控制
+12、页面全部用采用html，需要jsp的功能用thymeleaf替代。所以所有页面重建。提供参考案例order.html
+13、改造LoginController和login.html，其中注意：
+	· LoginController：添加类似welcome-file-list访问方式：index方法
+	· login.html：js中获取thymeleaf数据的方式。
+14、后续控制器改造皆采用restful风格。参照controller和web章节。
+15、页面改造参照order.html模板。这里强调服务器分页和精确条件查询的重要性。
+16、配置拦截器，添加配置类WebMvcConfigure。
+
+改造注意点：
+	1、遇到类似于Customer类中的status字段是整形，但你想显示到页面中的是数字背后的中文含义，如1代表正常
+		最简单的办法就是修改实体类，手动添加字段statusStr，并添加get函数，在函数中根据status的值来返回对应中文
+	2、junit单元测试和拦截器配置WebMvcConfigurer有冲突。所以要单元测试时先注释掉@SpringBootConfiguration
+	3、事务使用本地事务即可，pom里头千万不要加入任何额外的jta模块。否则本地事务都会受影响而无效。
