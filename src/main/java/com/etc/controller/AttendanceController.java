@@ -1,0 +1,13 @@
+package com.etc.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class AttendanceController {
+
+	@RequestMapping("/showschool")
+	public String showSchoolAttendance(){
+		return "admin_wholeschool";
+	}
+}
