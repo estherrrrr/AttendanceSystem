@@ -141,7 +141,34 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            <!-- AREA CHART -->
+            <div class="card card-primary" style="width: 800px;height:600px;">
+              <div class="card-header">
+                <h3 class="card-title">school</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="areaChart" style="width: 800px;height:400px;">
+                  <!-- <canvas  ></canvas> -->
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -188,5 +215,29 @@
 
 <!-- PAGE SCRIPTS -->
 <script th:src="@{/model/dist/js/pages/dashboard2.js}"></script>
+
+<script th:src="@{/js/echarts.common.min.js}"></script>
+<script>
+   $(function () {
+       var myChart = echarts.init(document.getElementById('areaChart'));
+       
+       var option = {
+    xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        type: 'line',
+        smooth: true
+    }]
+    };
+    
+    myChart.setOption(option);
+   })
+</script>
 </body>
 </html>
