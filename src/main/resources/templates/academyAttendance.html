@@ -91,8 +91,8 @@
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview  menu-open">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fa fa-pie-chart"></i>
               <p>
                 考勤统计
@@ -101,13 +101,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="@{/schoolAttendance.do}" class="nav-link">
+                <a th:href="@{/schoolAttendance.do}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon text-warning"></i>
                   <p>全校考勤</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="@{/academyAttendance.do}" class="nav-link">
+                <a th:href="@{/academyAttendance.do}" class="nav-link active">
                   <i class="fa fa-circle-o nav-icon text-info"></i>
                   <p>学院考勤</p>
                 </a>
@@ -128,7 +128,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">首页</h1>
+            <h1 class="m-0 text-dark">学院考勤情况</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -141,7 +141,10 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    
+    <section class="content">
+       <div id="areaChart" class="card card-primary" style="width: 800px;height:400px;background-color:rgba(0,0,0,0);">   
+       </div>
+    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -188,5 +191,66 @@
 
 <!-- PAGE SCRIPTS -->
 <script th:src="@{/model/dist/js/pages/dashboard2.js}"></script>
+<script  type="text/javascript" th:src="@{/js/echarts.common.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/loader.js}"></script>
+<script>
+   $(function () {
+       var myChart = echarts.init(document.getElementById('areaChart'));
+       
+       var option = {
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    legend: {
+        data:[,'出勤率','缺勤率','迟到率']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            data : ['xx学院','xx学院','xx学院','xx学院','xx学院','xx学院','xx学院']
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        
+        {
+            name:'出勤率',
+            type:'bar',
+            stack: '广告',
+            data:[120, 132, 101, 134, 90, 230, 210]
+        },
+        {
+            name:'缺勤率',
+            type:'bar',
+            stack: '广告',
+            data:[220, 182, 191, 234, 290, 330, 310]
+        },
+        {
+            name:'迟到率',
+            type:'bar',
+            stack: '广告',
+            data:[150, 232, 201, 154, 190, 330, 410]
+        },
+        
+    ]
+    };
+
+    
+    myChart.setOption(option);
+   })
+</script>
 </body>
 </html>

@@ -101,13 +101,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a th:href="@{/showschool}" class="nav-link active">
+                <a th:href="@{/schoolAttendance.do}" class="nav-link active">
                   <i class="fa fa-circle-o nav-icon text-warning"></i>
                   <p>全校考勤</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a th:href="@{/academyAttendance.do}" class="nav-link">
                   <i class="fa fa-circle-o nav-icon text-info"></i>
                   <p>学院考勤</p>
                 </a>
@@ -195,13 +195,24 @@
 <!-- PAGE SCRIPTS -->
 <script th:src="@{/model/dist/js/pages/dashboard2.js}"></script>
 
+<script type="text/javascript" th:src="@{/js/loader.js}"></script>
 <script th:src="@{/js/echarts.common.min.js}"></script>
 <script>
-   $(function () {
+   $.queryAll("showschool.do",function(res){
+   alert(res.data)
+     /* $.each(res.datas,function(){
+               alert(this.type);
+				types.push(this.type);
+				nums.push(this.num);
+				
+	}); */
+   }); 
+  
        var myChart = echarts.init(document.getElementById('areaChart'));
        
+       
        var option = {
-    xAxis: {
+   xAxis: {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     },
@@ -216,7 +227,8 @@
     };
     
     myChart.setOption(option);
-   })
+   
+
 </script>
 </body>
 </html>

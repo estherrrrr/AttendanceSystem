@@ -16,9 +16,9 @@ function getRootPath() {
 //jquery
 document.write('<script src="'+getRootPath()+'/js/jquery-1.10.2.js"></script>');
 //bootstrap
-document.write('<script src="'+getRootPath()+'/js/bootstrap.min.js"></script>');
+/*document.write('<script src="'+getRootPath()+'/js/bootstrap.min.js"></script>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/bootstrap.css"/>');
-document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/bootstrap-theme.css"/>');
+document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/bootstrap-theme.css"/>');*/
 //基于boostrap定制的表格插件
 document.write('<script src="'+getRootPath()+'/js/bootstrap-table.js"></script>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/bootstrap-table.css"/>');
@@ -33,10 +33,10 @@ document.write('<script src="'+getRootPath()+'/js/restful.js"></script>');
 //echart图表
 document.write('<script src="'+getRootPath()+'/js/echarts.common.min.js"></script>');
 //其他组件
-document.write('<script src="'+getRootPath()+'/js/jquery.metisMenu.js"></script>');
+/*document.write('<script src="'+getRootPath()+'/js/jquery.metisMenu.js"></script>');
 document.write('<script src="'+getRootPath()+'/js/jquery.backstretch.min.js"></script>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/custom-styles.css"/>');
-document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/font-awesome.css"/>');
+document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/font-awesome.css"/>');*/
 
 
 //3、初始化提示框
