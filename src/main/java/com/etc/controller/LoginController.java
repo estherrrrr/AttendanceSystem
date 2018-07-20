@@ -21,7 +21,7 @@ public class LoginController {
 	@RequestMapping("/login")
 	public String login(@RequestParam(required=true)String adminname,
 			@RequestParam(required=true)String password,HttpServletRequest request){
-		return null;
+		return "/part/main2";
 		
 	}
 	
