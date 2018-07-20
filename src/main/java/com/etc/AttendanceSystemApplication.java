@@ -13,10 +13,10 @@ import com.github.pagehelper.PageInterceptor;
 @MapperScan("com.etc.dao")
 @EnableTransactionManagement
 @SpringBootApplication
-public class SpringBootShopApplication {
+public class AttendanceSystemApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootShopApplication.class, args);
+		SpringApplication.run(AttendanceSystemApplication.class, args);
 	}
 	
 	@Bean
