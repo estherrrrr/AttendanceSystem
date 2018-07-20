@@ -28,7 +28,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry kind="lib" path="D:/Luo_XD/AttendanceSystem/lib/mysql-connector-java-5.0.5-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/myhadoop"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/myhbase"/>
 	<classpathentry kind="output" path="target/classes"/>
