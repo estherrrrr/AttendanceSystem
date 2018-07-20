@@ -35,41 +35,33 @@
 	<!-- JS Scripts-->
 	<script type="text/javascript">
 	
-	var types = new Array();
-	var nums = new Array();
 	
-		 $.queryAll("showschool.do",function(res){
-			 alert(res.key)
-     $.each(res.datas,function(){
-
-				types.push(this.type);
-				nums.push(this.num);
-				
+	var nums =[];
+	
+	$.queryAll("showschool.do",function(res){
+			 
+     $.each(res.data,function(){
+          nums.push(this);		
 	}); 
-     alert(types);
-   }); 
-  
+
        var myChart = echarts.init(document.getElementById('quantity-bar-echarts'));
-       
        
        var option = {
    xAxis: {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     },
-    yAxis: {
-        type: 'value'
-    },
+    yAxis: {    },
     series: [{
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
         type: 'line',
-        smooth: true
+        smooth: true,
+        data: nums
     }]
     };
     
     myChart.setOption(option);
 		
-		
+	}); 
 	</script>
 </body>
 </html>

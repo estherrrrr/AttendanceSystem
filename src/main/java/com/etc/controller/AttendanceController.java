@@ -1,5 +1,6 @@
 package com.etc.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +17,12 @@ import com.etc.entity.JsonResult;
 public class AttendanceController {
 
 	@GetMapping("/showschool")
-	public JsonResult<Map<String, Double>> showSchool(){
-		Map<String,Double> map=new HashMap<String,Double>();
-		map.put("2018-9-1", 97.0);
-		map.put("2018-9-2", 99.0);
-		map.put("2018-9-3", 94.9);
+	public JsonResult<List<String>> showSchool(){
+		List<String> map=new ArrayList<String>();
+		map.add("97.0");map.add("93.8");
+		
 
-		JsonResult<Map<String,Double>> list=new JsonResult<Map<String,Double>>(map);
+		JsonResult<List<String>> list=new JsonResult<List<String>>(map);
 		return list;
 	}
 }
