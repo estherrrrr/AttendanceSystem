@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>管理员首页</title>
+  <title>AdminLTE 3 | Dashboard 2</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" th:href="@{/model/plugins/font-awesome/css/font-awesome.min.css}">
@@ -44,7 +44,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a th:href="@{/adminMain.do}" class="brand-link">
+    <a th:href="@{/login}" class="brand-link">
       <img th:src="@{/model/dist/img/AdminLTELogo.png}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">考勤管理系统</span>
@@ -68,7 +68,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="@{/adminTeacherManagement.do}" class="nav-link">
+            <a href="" class="nav-link">
               <i class="nav-icon fa fa-user"></i>
               <p>
                 教师管理
@@ -76,7 +76,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="@{/adminClassManagement.do}" class="nav-link">
+            <a href="" class="nav-link">
               <i class="nav-icon fa fa-book"></i>
               <p>
                 课程管理
@@ -84,15 +84,15 @@
             </a>
           </li>
 	  <li class="nav-item">
-            <a href="@{/adminAttendanceManagement.do}" class="nav-link">
+            <a href="" class="nav-link">
               <i class="nav-icon fa fa-calendar"></i>
               <p>
                 考勤管理
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview  menu-open">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fa fa-pie-chart"></i>
               <p>
                 考勤统计
@@ -101,13 +101,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="@{/schoolAttendance.do}" class="nav-link">
+                <a th:href="@{/showschool}" class="nav-link active">
                   <i class="fa fa-circle-o nav-icon text-warning"></i>
                   <p>全校考勤</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="@{/academyAttendance.do}" class="nav-link">
+                <a href="" class="nav-link">
                   <i class="fa fa-circle-o nav-icon text-info"></i>
                   <p>学院考勤</p>
                 </a>
@@ -128,7 +128,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">首页</h1>
+            <h1 class="m-0 text-dark">全校考勤情况</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -141,7 +141,34 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            <!-- AREA CHART -->
+            <div class="card card-primary" style="width: 800px;height:600px;">
+              <div class="card-header">
+                <h3 class="card-title">school</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="areaChart" style="width: 800px;height:400px;">
+                  <!-- <canvas  ></canvas> -->
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -159,7 +186,7 @@
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2018 <a href="#">考勤管理系统</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
@@ -188,5 +215,29 @@
 
 <!-- PAGE SCRIPTS -->
 <script th:src="@{/model/dist/js/pages/dashboard2.js}"></script>
+
+<script th:src="@{/js/echarts.common.min.js}"></script>
+<script>
+   $(function () {
+       var myChart = echarts.init(document.getElementById('areaChart'));
+       
+       var option = {
+    xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        type: 'line',
+        smooth: true
+    }]
+    };
+    
+    myChart.setOption(option);
+   })
+</script>
 </body>
 </html>

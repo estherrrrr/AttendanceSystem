@@ -8,6 +8,6 @@ public class AttendanceController {
 
 	@RequestMapping("/showschool")
 	public String showSchoolAttendance(){
-		return "admin_wholeschool";
+		return "schoolAttendance";
 	}
 }
