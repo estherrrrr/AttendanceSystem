@@ -36,7 +36,7 @@ public class LoginController {
 			return "login";
 		}else{
 			request.getSession().setAttribute("admin", admins.get(0));
-			return "statistical";
+			return "adminMain";
 		}
 		
 	}

@@ -14,7 +14,7 @@
 
 	    userId="root" 
 
-	    password="" />
+	    password="009919MySQL" />
 
     <javaModelGenerator targetPackage="com.etc.entity" targetProject="AttendanceSystem" />
 

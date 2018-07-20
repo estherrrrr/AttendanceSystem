@@ -13,7 +13,7 @@
     <nav class="navbar navbar-default top-navbar" role="navigation" id="header">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">
-				<strong>商城后台管理系统</strong>
+				<strong>考勤管理系统</strong>
 			</a>
 		</div>
 		<ul class="nav navbar-top-links navbar-right">
@@ -36,14 +36,24 @@
 	<nav class="navbar-default navbar-side" role="navigation" id="menu">
 	<div class="sidebar-collapse">
 	<ul class="nav" id="main-menu">
-		<li><a th:href="@{/statistical.do}">
-		<i class="fa fa-desktop"></i>统计信息</a></li>
-		<li><a th:href="@{/customer.do}">
-		<i class="fa fa-table"></i>客户管理 </a></li>
-		<li><a th:href="@{/goods.do}">
-		<i class="fa fa-table"></i>商品管理</a></li>
-		<li><a th:href="@{/order.do}">
-		<i class="fa fa-desktop"></i>订单管理</a></li>
+		<li><a th:href="@{/adminTeacherManagement.do}">
+		<i class="fa fa-desktop"></i>教师管理</a></li>
+		<li><a th:href="@{/adminClassManagement.do}">
+		<i class="fa fa-table"></i>课程管理 </a></li>
+		<li><a th:href="@{/adminAttendanceManagement.do}">
+		<i class="fa fa-table"></i>考勤管理</a></li>
+		<li class="nav-item has-treeview">
+		<a href="#">
+		<i class="fa fa-desktop"></i>考勤统计</a>
+		<ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a th:href="@{/schoolAttendance.do}" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon text-warning"></i>全校考勤</a></li>
+              <li class="nav-item">
+                <a th:href="@{/academyAttendance.do}" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon text-info"></i>学院考勤</a></li>
+            </ul>
+          </li>
 	</ul>
 	</div>
 	</nav>

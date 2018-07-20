@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: SpringBoot_1_MyBatis
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: 26470
+Built-By: Luo_XD
 Implementation-Vendor-Id: com.etc
-Build-Jdk: 1.8.0_112
+Build-Jdk: 1.8.0_31
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/SpringBoot_1_MyBatis
 Created-By: Maven Integration for Eclipse
