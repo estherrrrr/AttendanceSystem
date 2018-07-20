@@ -10,8 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.etc.dao.AdminMapper;
+import com.etc.entity.Admin;
+import com.etc.entity.AdminExample;
+
 @Controller
 public class LoginController {
+	
+	@Autowired
+	private AdminMapper adminMapper;
 	
 	@GetMapping({"/","login.html"})
 	public String gotoIndex(){
@@ -21,8 +28,16 @@ public class LoginController {
 	@RequestMapping("/login")
 	public String login(@RequestParam(required=true)String adminname,
 			@RequestParam(required=true)String password,HttpServletRequest request){
-		request.getSession().setAttribute("admin", "admin");
-		return "adminMain";
+		AdminExample ae = new AdminExample();
+		ae.createCriteria().andUsernameEqualTo(adminname).andPwdEqualTo(password);
+		List<Admin> admins = adminMapper.selectByExample(ae);
+		if(admins.size()!=1){
+			request.setAttribute("msg", "您输入的用户名或密码错误！");
+			return "login";
+		}else{
+			request.getSession().setAttribute("admin", admins.get(0));
+			return "statistical";
+		}
 		
 	}
 	

@@ -1,36 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+
 <generatorConfiguration>
-  <!-- <classPathEntry
-        location="C:\Users\fzj\.m2\repository\mysql\mysql-connector-java\5.1.22\mysql-connector-java-5.1.22.jar" /> -->
+
   <context id="AttendanceSystem" >
+
     <jdbcConnection 
+
 	    driverClass="com.mysql.jdbc.Driver" 
-	    connectionURL="jdbc:mysql://192.168.13.44:3306/ams" 
+
+	    connectionURL="jdbc:mysql://localhost:3306/ams" 
+
 	    userId="root" 
-	    password="123456" />
+
+	    password="" />
+
     <javaModelGenerator targetPackage="com.etc.entity" targetProject="AttendanceSystem" />
+
     <sqlMapGenerator targetPackage="com.etc.mapper" targetProject="AttendanceSystem" />
+
     <javaClientGenerator targetPackage="com.etc.dao" targetProject="AttendanceSystem" type="XMLMAPPER" />
+
     <!-- type有三个值：ANNOTATEDMAPPER、MIXEDMAPPER、XMLMAPPER -->
+
     <!--  数据库　表名　生成名domainObjectName="" -->
+
     <table schema="ams" tableName="academy">
+
     	<generatedKey column="id" sqlStatement="mysql" identity="true" />  
+
     </table>
+
     <table schema="ams" tableName="admin">
+
     	<generatedKey column="id" sqlStatement="mysql" identity="true" />  
+
     </table>
+
     <table schema="ams" tableName="attendance">
+
     	<generatedKey column="id" sqlStatement="mysql" identity="true" />  
+
     </table>
-    <table schema="ams" tableName="class">
+
+    <table schema="ams" tableName="classes">
+
     	<generatedKey column="id" sqlStatement="mysql" identity="true" />  
+
     </table>
+
     <table schema="ams" tableName="student">
+
     	<generatedKey column="id" sqlStatement="mysql" identity="true" />  
+
     </table>
+
     <table schema="ams" tableName="teacher">
+
     	<generatedKey column="id" sqlStatement="mysql" identity="true" />  
+
     </table>
+
   </context>
+
 </generatorConfiguration>
