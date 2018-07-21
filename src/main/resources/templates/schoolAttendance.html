@@ -36,26 +36,22 @@
 	<script type="text/javascript">
 	
 	
-	var nums =[];
 	
 	$.queryAll("showschool.do",function(res){
-			 
-     $.each(res.data,function(){
-          nums.push(this);		
-	}); 
+			  
 
        var myChart = echarts.init(document.getElementById('quantity-bar-echarts'));
        
        var option = {
    xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] 
     },
     yAxis: {    },
     series: [{
         type: 'line',
         smooth: true,
-        data: nums
+        data: res.data
     }]
     };
     
