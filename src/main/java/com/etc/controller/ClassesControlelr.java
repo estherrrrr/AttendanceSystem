@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.etc.entity.Classes;
 import com.etc.entity.JsonResult;
 import com.etc.service.ClassesService;
 import com.github.pagehelper.PageHelper;
@@ -30,6 +33,12 @@ public class ClassesControlelr {
 		List<Map<String,Object>> list = classesService.findByCondition(param);
 		PageInfo<Map<String,Object>> pageInfo = new PageInfo<Map<String,Object>>(list);
 		return new JsonResult<Map<String,Object>>(pageInfo);
+	}
+	
+	@DeleteMapping("/restclasses")
+	public JsonResult deleteClasses(@RequestBody List<Classes> classes){
+		classesService.doRemove(classes);
+		return new JsonResult("删除成功");
 	}
 
 }

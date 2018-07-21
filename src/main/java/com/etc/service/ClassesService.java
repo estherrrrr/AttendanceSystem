@@ -1,5 +1,6 @@
 package com.etc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,5 +27,15 @@ public class ClassesService {
 	public List<Map<String,Object>> findByCondition(Map<String,Object> param){
 		List<Map<String,Object>> list = crMapper.selectClasses(param);
 		return list;
+	}
+	
+	public boolean doRemove(List<Classes> classes){
+		List<Integer> cids= new ArrayList<Integer>();
+		for(Classes c:classes)
+			cids.add(c.getId());
+		ClassesExample ce=new ClassesExample();
+		ce.createCriteria().andIdIn(cids);
+		int row = classesMapper.deleteByExample(ce);
+		return row==cids.size();
 	}
 }
