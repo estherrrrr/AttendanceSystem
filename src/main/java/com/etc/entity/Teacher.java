@@ -38,6 +38,7 @@ public class Teacher {
 	 * @return  the value of teacher.id
 	 * @mbggenerated  Fri Jul 20 21:05:12 CST 2018
 	 */
+
 	public Integer getId() {
 		return id;
 	}

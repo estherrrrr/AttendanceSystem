@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +29,6 @@ public class ClassesControlelr {
 	public JsonResult<Map<String,Object>> showClasses(int pageSize,int pageNum,
 			String sort,String order,String cname,String tname,String aname){
 		PageHelper.startPage(pageNum, pageSize, sort+" "+order);
-		System.out.println("进入查询方法");
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("cname",cname);param.put("tname",tname);param.put("aname",aname);
 		List<Map<String,Object>> list = classesService.findByCondition(param);
@@ -39,6 +40,18 @@ public class ClassesControlelr {
 	public JsonResult deleteClasses(@RequestBody List<Classes> classes){
 		classesService.doRemove(classes);
 		return new JsonResult("删除成功");
+	}
+	
+	@PostMapping("/restclasses")
+	public JsonResult addClasses(@RequestBody Classes classes){
+		classesService.doAdd(classes);
+		return new JsonResult("添加成功");
+	}
+	
+	@PutMapping("/restclasses")
+	public JsonResult updateClasses(@RequestBody Classes classes){
+		classesService.doModify(classes);
+		return new JsonResult("修改成功");
 	}
 
 }
