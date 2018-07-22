@@ -34,55 +34,79 @@
 	<!-- /. WRAPPER  -->
 	<!-- JS Scripts-->
 	<script type="text/javascript">
-	
-	
 	$.queryAll("showacademy.do",function(res){
-       var myChart = echarts.init(document.getElementById('quantity-bar-echarts'));
-       
-       var option = {
-    		   tooltip : {
-    		        trigger: 'axis',
-    		        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-    		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-    		        }
-    		    },
-    		    legend: {
-    		        data:['出勤率','缺勤率','迟到率']
-    		    },
-    		    grid: {
-    		        left: '3%',
-    		        right: '4%',
-    		        bottom: '3%',
-    		        containLabel: true
-    		    },
-               xAxis: [{
-                  data: ['软件学院', '数学科学学院', '物理科学与技术学院', '管理学院', '法学院'] 
-               }],
-              yAxis: [{    }],
-              series: [
-            	  {
-                      name:'出勤率',
-                      type:'bar',
-                      stack: '概率',
-                      data:res.data[0]
-                  } ,
-                  {
-                      name:'缺勤率',
-                      type:'bar',
-                      stack: '概率',
-                      data:res.data[1]
-                  },
-                  {
-                      name:'迟到率',
-                      type:'bar',
-                      stack: '概率',
-                      data:res.data[2]
-                  },
-               ] 
-        };
-    
-    myChart.setOption(option);
-		
+		var myChart = echarts.init(document.getElementById('quantity-bar-echarts'));
+       	var itemStyle = {
+		    normal: {
+		    },
+		    emphasis: {
+		        barBorderWidth: 1,
+		        shadowBlur: 10,
+		        shadowOffsetX: 0,
+		        shadowOffsetY: 0,
+		        shadowColor: 'rgba(0,0,0,0.5)'
+		    }
+		};
+		var option = {
+			tooltip : {
+				trigger: 'axis',
+				axisPointer : { 
+					type : 'shadow'
+				}
+			},
+			legend: {
+				data:['出勤率','缺勤率','迟到率']
+			},
+			grid: {
+				left: '3%',
+    		    right: '4%',
+    		    bottom: '3%',
+    		    containLabel: true
+    		},
+    		xAxis: [{
+    			data: ['软件学院', '数学科学学院', '物理科学与技术学院', '管理学院', '法学院'],
+				triggerEvent: true
+			}],
+			yAxis: [{  
+				type: 'value',  
+            	axisLabel: {
+            		show: true,  
+                	interval: 'auto',  
+                  	formatter: '{value} %'  
+                },  
+            	show: true  
+            }],
+            series: [{
+				name:'出勤率',
+				type:'bar',
+                stack: '概率',
+                itemStyle: itemStyle,
+                data:res.data[0]
+            	},
+				{
+				name:'缺勤率',
+                type:'bar',
+                stack: '概率',
+                itemStyle: itemStyle,
+                data:res.data[1]
+            	},
+				{
+				name:'迟到率',
+                type:'bar',
+                stack: '概率',
+                itemStyle: itemStyle,
+                data:res.data[2]
+                }
+			]
+		};
+    	myChart.setOption(option);
+		myChart.on('click', function (params) {
+        	if(params.componentType == "xAxis"){
+            	alert("单击了"+params.value+"x轴标签");
+        	}else{
+            	alert("单击了"+params.name+"柱状图");
+        	}
+    	});
 	}); 
 	</script>
 </body>
