@@ -5,7 +5,7 @@
 	
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta content="wuxiaoyi" name="author" />
-    <meta name="content-type" content="text/html; charset=UTF-8">  
+    <meta name="content-type" content="text/html; charset=UTF-8"> 
 	<script type="text/javascript" th:src="@{/js/loader.js}"></script>
   </head>
   
@@ -24,7 +24,7 @@
 				</a>
 				<ul class="dropdown-menu dropdown-user">
 					<li>
-					<a href="logout"><i class="fa fa-sign-out fa-fw"></i>
+					<a href="logout" style="color:#337ab7;"><i class="fa fa-sign-out fa-fw" style="color:#337ab7;"></i>
 						登出
 					</a>
 					</li>
@@ -37,21 +37,21 @@
 	<div class="sidebar-collapse">
 	<ul class="nav" id="main-menu">
 		<li><a th:href="@{/adminTeacherManagement.do}">
-		<i class="fa fa-desktop"></i>教师管理</a></li>
+		<i class="fa fa-desktop" style="color:#337ab7;"></i>教师管理</a></li>
 		<li><a th:href="@{/adminClassManagement.do}">
-		<i class="fa fa-table"></i>课程管理 </a></li>
+		<i class="fa fa-table" style="color:#337ab7;"></i>课程管理 </a></li>
 		<li><a th:href="@{/adminAttendanceManagement.do}">
-		<i class="fa fa-table"></i>考勤管理</a></li>
+		<i class="fa fa-table" style="color:#337ab7;"></i>考勤管理</a></li>
 		<li class="nav-item has-treeview">
 		<a href="#">
-		<i class="fa fa-desktop"></i>考勤统计</a>
+		<i class="fa fa-desktop" style="color:#337ab7;"></i>考勤统计</a>
 		<ul class="nav nav-treeview">
               <li class="nav-item">
                 <a th:href="@{/schoolAttendance.do}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon text-warning"></i>全校考勤</a></li>
+                  <i class="fa fa-circle-o nav-icon text-warning" style="color:#337ab7;"></i>全校考勤</a></li>
               <li class="nav-item">
                 <a th:href="@{/academyAttendance.do}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon text-info"></i>学院考勤</a></li>
+                  <i class="fa fa-circle-o nav-icon text-info" style="color:#337ab7;"></i>学院考勤</a></li>
             </ul>
           </li>
 	</ul>
