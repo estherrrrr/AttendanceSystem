@@ -17,10 +17,10 @@
 			<div id="page-inner">
 				<div class="row">
 					<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="panel panel-primary" >
-							<div class="panel-heading">各个学院考勤情况</div>
-							<div class="panel-body" style="margin-left: 150px;">
-								<div id="quantity-bar-echarts" style="width: 1200px;height:750px;"></div>
+						<div class="box box-primary" >
+							<div class="box-header with-border">各个学院考勤情况</div>
+							<div class="box-body">
+								<div id="quantity-bar-echarts" style="width: 100%;height:600px;"></div>
 							</div>
 						</div>
 					</div>
@@ -35,6 +35,7 @@
 	<!-- JS Scripts-->
 	<script type="text/javascript">
 	$.queryAll("showacademy.do",function(res){
+		document.getElementById('quantity-bar-echarts').style.height = (window.innerHeight-65)*0.85 + "px";
 		var myChart = echarts.init(document.getElementById('quantity-bar-echarts'));
        	var itemStyle = {
 		    normal: {
@@ -101,6 +102,10 @@
 			]
 		};
     	myChart.setOption(option);
+    	window.onresize = function() {
+			document.getElementById('quantity-bar-echarts').style.height = (window.innerHeight-65)*0.85 + "px";
+			myChart.resize();
+		};
 		myChart.on('click', function (params) {
 		    var data;
         	if(params.componentType == "xAxis"){

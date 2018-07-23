@@ -5,7 +5,7 @@
 	
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta content="wuxiaoyi" name="author" />
-    <meta name="content-type" content="text/html; charset=UTF-8"> 
+    <meta name="content-type" content="text/html; charset=UTF-8">  
 	<script type="text/javascript" th:src="@{/js/loader.js}"></script>
   </head>
   
@@ -45,13 +45,13 @@
 		<li class="nav-item has-treeview">
 		<a href="#">
 		<i class="fa fa-desktop" style="color:#337ab7;"></i>考勤统计</a>
-		<ul class="nav nav-treeview">
+		<ul class="nav nav-treeview" style="color:#337ab7;">
               <li class="nav-item">
                 <a th:href="@{/schoolAttendance.do}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon text-warning" style="color:#337ab7;"></i>全校考勤</a></li>
+                  <i class="fa fa-circle-o nav-icon text-red"></i>全校考勤</a></li>
               <li class="nav-item">
                 <a th:href="@{/academyAttendance.do}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon text-info" style="color:#337ab7;"></i>学院考勤</a></li>
+                  <i class="fa fa-circle-o nav-icon text-yellow"></i>学院考勤</a></li>
             </ul>
           </li>
 	</ul>

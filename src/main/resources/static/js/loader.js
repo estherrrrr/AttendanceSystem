@@ -37,7 +37,7 @@ document.write('<script src="'+getRootPath()+'/js/jquery.metisMenu.js"></script>
 document.write('<script src="'+getRootPath()+'/js/jquery.backstretch.min.js"></script>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/custom-styles.css"/>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/font-awesome.css"/>');
-
+document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/AdminLTE.css"/>');
 
 //3、初始化提示框
 document.write("<script>toastr.options.positionClass = 'toast-top-center';</script>");
