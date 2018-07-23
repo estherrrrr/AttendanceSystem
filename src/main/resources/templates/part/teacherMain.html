@@ -9,15 +9,23 @@
 	<script type="text/javascript" th:src="@{/js/loader.js}"></script>
   </head>
   
-  <body>
-    <nav class="navbar navbar-default top-navbar" role="navigation" id="header">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">
-				<strong>考勤管理系统</strong>
-			</a>
-		</div>
-		<ul class="nav navbar-top-links navbar-right">
-			<li class="dropdown">
+<body class="hold-transition skin-blue sidebar-mini">
+  <div class="wrapper">
+  	<header class="main-header" id="header">
+	    <a href="#" class="logo">
+	      <span class="logo-mini"><b>A</b>MS</span>
+	      <span class="logo-lg">考勤管理系统</span>
+	    </a>
+	    <nav class="navbar navbar-static-top">
+	      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </a>
+	      <div class="navbar-custom-menu">
+	        <ul class="nav navbar-nav">
+	          <li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
 					<span th:text="${session.admin.username }"></span>
 					<i class="fa fa-user fa-fw" style="color:#337ab7;"></i> <i class="fa fa-caret-down" style="color:#337ab7;"></i>
@@ -29,34 +37,46 @@
 					</a>
 					</li>
 				</ul>
-			</li>
-		</ul>
-	</nav>
+	        </ul>
+	      </div>
+    	</nav>
+  	</header>
+ 
 	<!--导航栏class="active-menu-->
-	<nav class="navbar-default navbar-side" role="navigation" id="menu">
-	<div class="sidebar-collapse">
-	<ul class="nav" id="main-menu">
-		<li><a th:href="@{/teacherClassManagement.do}">
-		<i class="fa fa-table" style="color:#337ab7;"></i>课程管理 </a></li>
-		<li><a th:href="@{/teacherAttendanceManagement.do}">
-		<i class="fa fa-table" style="color:#337ab7;"></i>考勤管理</a></li>
-		<li class="nav-item has-treeview">
-		<a href="#">
-		<i class="fa fa-desktop" style="color:#337ab7;"></i>考勤统计</a>
-		<ul class="nav nav-treeview" style="color:#337ab7;">
-              <li class="nav-item">
-                <a th:href="@{/teacherschoolAttendance.do}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon text-red"></i>全校考勤</a></li>
-              <li class="nav-item">
-                <a th:href="@{/teacheracademyAttendance.do}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon text-yellow"></i>学院考勤</a></li>
-              <li class="nav-item">
-                <a th:href="@{/teachermyclasses.do}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon text-green"></i>我的课程</a></li>
-            </ul>
-          </li>
-	</ul>
-	</div>
-	</nav>
+	<aside class="main-sidebar" id="menu">
+    	<section class="sidebar">
+		    <ul class="sidebar-menu" data-widget="tree">
+		        <li>
+		          <a th:href="@{/adminTeacherManagement.do}">
+		            <i class="fa fa-desktop"></i> <span>教师管理</span>
+		          </a>
+		        </li>
+		        <li>
+		          <a th:href="@{/adminClassManagement.do}">
+		            <i class="fa fa-table"></i> <span>课程管理</span>
+		          </a>
+		        </li>
+		        <li>
+		          <a th:href="@{/adminAttendanceManagement.do}">
+		            <i class="fa fa-table"></i> <span>考勤管理</span>
+		          </a>
+		        </li>
+		        <li class="treeview">
+		          <a href="#">
+		            <i class="fa fa-dashboard"></i> <span>考勤统计</span>
+		            <span class="pull-right-container">
+		              <i class="fa fa-angle-left pull-right"></i>
+		            </span>
+		          </a>
+		          <ul class="treeview-menu">
+		            <li><a th:href="@{/schoolAttendance.do}"><i class="fa fa-circle-o text-red"></i> 全校考勤</a></li>
+		            <li><a th:href="@{/academyAttendance.do}"><i class="fa fa-circle-o text-yellow"></i> 学院考勤</a></li>
+		            <li><a th:href="@{/teachermyclasses.do}"><i class="fa fa-circle-o text-green"></i> 我的考勤</a></li>
+		          </ul>
+		       	</li>
+		    </ul>
+		</section>
+	</aside>
+  </div>
   </body>
 </html>
