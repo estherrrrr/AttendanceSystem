@@ -38,7 +38,13 @@ public class Teacher {
 	 * @return  the value of teacher.id
 	 * @mbggenerated  Fri Jul 20 21:05:12 CST 2018
 	 */
-
+	private String aname;
+	public String getAname(){
+		return aname;
+	}
+	public void setAname(String aname){
+		this.aname=aname;
+	}
 	public Integer getId() {
 		return id;
 	}

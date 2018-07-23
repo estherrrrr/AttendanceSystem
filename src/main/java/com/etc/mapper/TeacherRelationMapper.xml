@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etc.dao.TeacherRelationMapper" >
+  	<!-- hashmap相当于java.util.Map -->
+	<select id="selectTeacher" resultType="hashmap" parameterType="hashmap">
+		select teacher.*,aname
+        from teacher 
+        inner join academy on teacher.aid = academy.id
+        where 1=1
+        <if test="tname!=null and tname!='' ">
+        	and tname like CONCAT('%',#{tname},'%')
+        </if>
+        <if test="aname!=null and aname!='' ">
+        	and aname like CONCAT('%',#{aname},'%')
+        </if>
+	</select>
+</mapper>
