@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<title>统计信息</title>
+<script type="text/javascript" th:src="@{/js/loader.js}"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<div th:replace="part/studentMain::#header"></div>
+		<div th:replace="part/studentMain::#menu"></div>
+		<!-- /. NAV SIDE  -->
+		<div id="page-wrapper">
+			<div id="page-inner">
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="box box-primary" >
+							<div class="box-header with-border">各个学院考勤情况</div>
+							<div class="box-body">
+								<div id="quantity-bar-echarts" style="width: 100%;height:600px;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+		
+			</div>
+			<!-- /. PAGE INNER  -->
+		</div>
+		<!-- /. PAGE WRAPPER  -->
+	</div>
+	<!-- /. WRAPPER  -->
+	<!-- JS Scripts-->
+	<script type="text/javascript">
+	$.queryAll("showacademy.do",function(res){
+		document.getElementById('quantity-bar-echarts').style.height = (window.innerHeight-65)*0.85 + "px";
+		var myChart = echarts.init(document.getElementById('quantity-bar-echarts'));
+       	var itemStyle = {
+		    normal: {
+		    },
+		    emphasis: {
+		        barBorderWidth: 1,
+		        shadowBlur: 10,
+		        shadowOffsetX: 0,
+		        shadowOffsetY: 0,
+		        shadowColor: 'rgba(0,0,0,0.5)'
+		    }
+		};
+		var option = {
+			tooltip : {
+				trigger: 'axis',
+				axisPointer : { 
+					type : 'shadow'
+				}
+			},
+			legend: {
+				data:['出勤率','缺勤率','迟到率']
+			},
+			grid: {
+				left: '3%',
+    		    right: '4%',
+    		    bottom: '3%',
+    		    containLabel: true
+    		},
+    		xAxis: [{
+    			data: ['软件学院', '数学科学学院', '物理科学与技术学院', '管理学院', '法学院'],
+				triggerEvent: true
+			}],
+			yAxis: [{  
+				type: 'value',  
+            	axisLabel: {
+            		show: true,  
+                	interval: 'auto',  
+                  	formatter: '{value} %'  
+                },  
+            	show: true  
+            }],
+            series: [{
+				name:'出勤率',
+				type:'bar',
+                stack: '概率',
+                barWidth : 70,
+                itemStyle: itemStyle,
+                data:res.data[0]
+            	},
+				{
+				name:'缺勤率',
+                type:'bar',
+                stack: '概率',
+                itemStyle: itemStyle,
+                data:res.data[1]
+            	},
+				{
+				name:'迟到率',
+                type:'bar',
+                stack: '概率',
+                itemStyle: itemStyle,
+                data:res.data[2]
+                }
+			]
+		};
+    	myChart.setOption(option);
+    	window.onresize = function() {
+			document.getElementById('quantity-bar-echarts').style.height = (window.innerHeight-65)*0.85 + "px";
+			myChart.resize();
+		};
+		myChart.on('click', function (params) {
+		    var data;
+        	if(params.componentType == "xAxis"){
+        	  data=params.value;
+        	}else{
+            	data=params.name;
+        	}
+        	 $.ajax({  
+			type: 'GET',  
+			url: 'academy',  
+			cache: false,
+			data: {"academy":JSON.stringify(data)},   
+			dataType: 'text',  
+			processData: true,  
+			contentType: 'application/json',  
+			success: function(){window.location.href="academyDetail.do";},  
+			error: function(req, status, ex) {toastr.error("操作异常！");}
+		        });  
+    	});
+	}); 
+	</script>
+</body>
+</html>
