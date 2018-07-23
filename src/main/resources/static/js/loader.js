@@ -14,7 +14,7 @@ function getRootPath() {
 	return (localhostPaht + projectName);
 }
 //jquery
-document.write('<script src="'+getRootPath()+'/js/jquery-1.10.2.js"></script>');
+document.write('<script src="'+getRootPath()+'/js/jquery.min.js"></script>');
 //bootstrap
 document.write('<script src="'+getRootPath()+'/js/bootstrap.min.js"></script>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/bootstrap.css"/>');
@@ -38,6 +38,7 @@ document.write('<script src="'+getRootPath()+'/js/jquery.backstretch.min.js"></s
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/custom-styles.css"/>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/font-awesome.css"/>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/AdminLTE.css"/>');
-
+document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/skin-blue.css"/>');
+document.write('<script src="'+getRootPath()+'/js/adminlte.js"></script>');
 //3、初始化提示框
 document.write("<script>toastr.options.positionClass = 'toast-top-center';</script>");

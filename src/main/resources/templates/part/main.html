@@ -4,58 +4,71 @@
     <title>主页</title>
 	
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta content="wuxiaoyi" name="author" />
     <meta name="content-type" content="text/html; charset=UTF-8">  
 	<script type="text/javascript" th:src="@{/js/loader.js}"></script>
   </head>
   
-  <body>
-    <nav class="navbar navbar-default top-navbar" role="navigation" id="header">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">
-				<strong>考勤管理系统</strong>
-			</a>
-		</div>
-		<ul class="nav navbar-top-links navbar-right">
-			<li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-					<span th:text="${session.admin.username }"></span>
-					<i class="fa fa-user fa-fw" style="color:#337ab7;"></i> <i class="fa fa-caret-down" style="color:#337ab7;"></i>
-				</a>
-				<ul class="dropdown-menu dropdown-user">
-					<li>
-					<a href="logout" style="color:#337ab7;"><i class="fa fa-sign-out fa-fw" style="color:#337ab7;"></i>
-						登出
-					</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</nav>
+<body class="hold-transition skin-blue sidebar-mini">
+  <div class="wrapper">
+  	<header class="main-header" id="header">
+	    <a href="#" class="logo">
+	      <!-- mini logo for sidebar mini 50x50 pixels -->
+	      <span class="logo-mini"><b>A</b>MS</span>
+	      <!-- logo for regular state and mobile devices -->
+	      <span class="logo-lg">考勤管理系统</span>
+	    </a>
+	    <!-- Header Navbar: style can be found in header.less -->
+	    <nav class="navbar navbar-static-top">
+	      <!-- Sidebar toggle button-->
+	      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </a>
+
+	      <div class="navbar-custom-menu">
+	        <ul class="nav navbar-nav">
+	          <!-- Messages: style can be found in dropdown.less-->
+	        </ul>
+	      </div>
+    	</nav>
+  	</header>
+ 
 	<!--导航栏class="active-menu-->
-	<nav class="navbar-default navbar-side" role="navigation" id="menu">
-	<div class="sidebar-collapse">
-	<ul class="nav" id="main-menu">
-		<li><a th:href="@{/adminTeacherManagement.do}">
-		<i class="fa fa-desktop" style="color:#337ab7;"></i>教师管理</a></li>
-		<li><a th:href="@{/adminClassManagement.do}">
-		<i class="fa fa-table" style="color:#337ab7;"></i>课程管理 </a></li>
-		<li><a th:href="@{/adminAttendanceManagement.do}">
-		<i class="fa fa-table" style="color:#337ab7;"></i>考勤管理</a></li>
-		<li class="nav-item has-treeview">
-		<a href="#">
-		<i class="fa fa-desktop" style="color:#337ab7;"></i>考勤统计</a>
-		<ul class="nav nav-treeview" style="color:#337ab7;">
-              <li class="nav-item">
-                <a th:href="@{/schoolAttendance.do}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon text-red"></i>全校考勤</a></li>
-              <li class="nav-item">
-                <a th:href="@{/academyAttendance.do}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon text-yellow"></i>学院考勤</a></li>
-            </ul>
-          </li>
-	</ul>
-	</div>
-	</nav>
+	<aside class="main-sidebar" id="menu">
+    	<section class="sidebar">
+		    <ul class="sidebar-menu" data-widget="tree">
+		        <li>
+		          <a th:href="@{/adminTeacherManagement.do}">
+		            <i class="fa fa-desktop"></i> <span>教师管理</span>
+		          </a>
+		        </li>
+		        <li>
+		          <a th:href="@{/adminClassManagement.do}">
+		            <i class="fa fa-table"></i> <span>课程管理</span>
+		          </a>
+		        </li>
+		        <li>
+		          <a th:href="@{/adminAttendanceManagement.do}">
+		            <i class="fa fa-table"></i> <span>考勤管理</span>
+		          </a>
+		        </li>
+		        <li class="treeview">
+		          <a href="#">
+		            <i class="fa fa-dashboard"></i> <span>考勤统计</span>
+		            <span class="pull-right-container">
+		              <i class="fa fa-angle-left pull-right"></i>
+		            </span>
+		          </a>
+		          <ul class="treeview-menu">
+		            <li><a th:href="@{/schoolAttendance.do}"><i class="fa fa-circle-o text-red"></i> 全校考勤</a></li>
+		            <li><a th:href="@{/academyAttendance.do}"><i class="fa fa-circle-o text-yellow"></i> 学院考勤</a></li>
+		          </ul>
+		       	</li>
+		    </ul>
+		</section>
+	</aside>
+  </div>
   </body>
 </html>
