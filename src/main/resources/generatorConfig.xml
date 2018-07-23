@@ -14,7 +14,7 @@
 
 	    userId="root" 
 
-	    password="009919MySQL" />
+	    password="" />
 
     <javaModelGenerator targetPackage="com.etc.entity" targetProject="AttendanceSystem" />
 
@@ -57,6 +57,11 @@
     </table>
 
     <table schema="ams" tableName="teacher">
+
+    	<generatedKey column="id" sqlStatement="mysql" identity="true" />  
+
+    </table>
+    <table schema="ams" tableName="course">
 
     	<generatedKey column="id" sqlStatement="mysql" identity="true" />  
 
