@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<title>统计信息</title>
+<script type="text/javascript" th:src="@{/js/loader.js}"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<div th:replace="part/studentMain::#header"></div>
+		<div th:replace="part/studentMain::#menu"></div>
+		<!-- /. NAV SIDE  -->
+		<div id="page-wrapper">
+			<div id="page-inner">
+				<div class="box box-primary">
+					<div class="box-header with-border">全校考勤情况</div>
+					<div class="box-body">
+						<div id="quantity-bar-echarts" style="width: 100%;height:600px;"></div>
+					</div>
+				</div>
+		
+			</div>
+			<!-- /. PAGE INNER  -->
+		</div>
+		<!-- /. PAGE WRAPPER  -->
+	</div>
+	<!-- /. WRAPPER  -->
+	<!-- JS Scripts-->
+	<script type="text/javascript">
+	
+	$.queryAll("showschool.do",function(res){
+	document.getElementById('quantity-bar-echarts').style.height = (window.innerHeight-65)*0.85 + "px";
+	var myChart = echarts.init(document.getElementById('quantity-bar-echarts'));
+    option = {
+    	baseOption: {
+    		timeline: {
+                    //loop: false,        
+                    axisType: 'category',
+                    show: true,
+                    autoPlay: true,
+                    playInterval: 1500,
+                    data: ['Week1', 'Week2', 'Week3']
+                },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+		            type: 'cross',
+		            crossStyle: {
+		                color: '#999'
+		            }
+		        }
+		    },
+		    legend: {
+		        data:['出勤人数','迟到人数','缺勤人数','出勤率']
+		    },
+		    xAxis: [
+		        {
+		            type: 'category',
+		            data: ['Mon','Tue','Wed','Thur','Fri'],
+		            axisPointer: {
+		                type: 'shadow'
+		            }
+		        }
+		    ],
+		    yAxis: [
+		        {
+		            type: 'value',
+		            name: '人数',
+		            min: 0,
+		            max: 250,
+		            interval: 50,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        },
+		        {
+		            type: 'value',
+		            name: '出勤率',
+		            min: 0,
+		            max: 100,
+		            interval: 20,
+		            axisLabel: { 
+		                formatter: '{value} %' 
+		            }
+		        }
+		    ],
+		    series: [
+		        {
+		            name:'出勤人数',
+		            type:'bar'
+		        },
+		        {
+		            name:'迟到人数',
+		            type:'bar'
+		        },
+		        {
+		            name:'缺勤人数',
+		            type:'bar'
+		        },
+		        {
+		            name:'出勤率',
+		            type:'line',
+		            yAxisIndex: 1
+		        }
+		    ]
+		},
+    	options: [
+            { // 这是'2002-01-01' 对应的 option
+                title: {
+                    text: 'Week1'
+                },
+                series: [
+                    {data: [154,156,186,123,135]},
+                    {data: [23,43,33,12,65]},
+                    {data: [4,12,26,23,12]}, 
+                    {data: [67,87,45,98,34]}
+                ]
+            },
+            { // 这是'2003-01-01' 对应的 option
+                title: {
+                    text: 'Week2'
+                },
+                series: [
+                    {data: [124,176,116,123,235]},
+                    {data: [13,33,73,62,15]},
+                    {data: [14,22,16,26,32]}, 
+                    {data: [47,77,85,58,74]}
+                ]
+            },
+            { // 这是'2004-01-01' 对应的 option
+                title: {
+                    text: 'Week3'
+                },
+                series: [
+                    {data: [234,146,116,193,165]},
+                    {data: [12,13,73,42,35]},
+                    {data: [24,12,36,26,22]}, 
+                    {data: [57,67,35,88,64]}
+                ]
+            }
+        ]
+        }
+        myChart.setOption(option);
+        
+		window.onresize = function() {
+			document.getElementById('quantity-bar-echarts').style.height = (window.innerHeight-65)*0.85 + "px";
+			myChart.resize();
+		};
+    });
+	</script>
+</body>
+</html>
