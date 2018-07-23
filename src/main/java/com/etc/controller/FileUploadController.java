@@ -1,10 +1,16 @@
 package com.etc.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +20,7 @@ import com.etc.entity.JsonResult;
 
 @RestController
 @RequestMapping("**.do")
-public class AttendanceManagementController {
+public class FileUploadController {
 	
 	@PostMapping("/restupload")
 	 public @ResponseBody JsonResult uploadImg(@RequestParam("file") MultipartFile file) {
@@ -22,7 +28,24 @@ public class AttendanceManagementController {
 	        String fileName = file.getOriginalFilename();
 	        /*System.out.println("fileName-->" + fileName);
 	        System.out.println("getContentType-->" + contentType);*/
-	        String filePath = "D:\\";
+	        String filePath = "./src/main/resources/static/download/";
+	        try {
+	            uploadFile(file.getBytes(), filePath, fileName);
+	            
+	        } catch (Exception e) {
+	            // TODO: handle exception
+	        }
+	        //返回json
+	        return new JsonResult("uploadimg success");
+	    }
+	 @PostMapping("/{id}/restupload")
+	 public @ResponseBody JsonResult uploadStudent(@RequestParam("file") MultipartFile file) {
+		    System.out.println(1111111);
+	        String contentType = file.getContentType();
+	        String fileName = file.getOriginalFilename();
+	        /*System.out.println("fileName-->" + fileName);
+	        System.out.println("getContentType-->" + contentType);*/
+	        String filePath = "./src/main/resources/static/download/";
 	        try {
 	            uploadFile(file.getBytes(), filePath, fileName);
 	            
@@ -35,12 +58,11 @@ public class AttendanceManagementController {
 	public static void uploadFile(byte[] file, String filePath, String fileName) throws Exception { 
         File targetFile = new File(filePath);  
         if(!targetFile.exists()){    
-            targetFile.mkdirs();    
+            targetFile.mkdirs();     
         }       
         FileOutputStream out = new FileOutputStream(filePath+fileName);
         out.write(file);
         out.flush();
         out.close();
     }
-
 }

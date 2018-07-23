@@ -63,6 +63,26 @@
 							</div>
 						</div>
 						</div>
+						<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    						<div class="modal-dialog">
+       							 <div class="modal-content">
+            						<div class="modal-header">
+               							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                							<h4 class="modal-title" id="myModalLabel">上传学生名单</h4>
+            						</div>
+           							<div class="modal-body">           								
+    									<form id="uploadForm" enctype="multipart/form-data">
+    										<input type="hidden" id="classid" name="classid"/>
+    										<input id="file" type="file" name="file"/>
+										</form>								
+           							</div>
+   									<div class="modal-footer">
+   										<button id="btn_upload" class="btn btn-primary">上传</button>	
+                						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>	
+            						</div>
+        						</div><!-- /.modal-content -->
+    						</div><!-- /.modal -->
+						</div>
 						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
@@ -216,7 +236,17 @@
 						align: "center",
 	                    valign: "middle",
 	                    sortable: true // 开启排序功能
-					}
+					},{
+						field : "operate",
+						title : "操作",
+						align: "center",
+	                    valign: "middle",
+	                    formatter: function(value, row, index) {   //添加链接
+							return [
+								'<a href="#" data-toggle="modal" data-target="#uploadModal" onclick="detail('+row.id+')"><center><span class="glyphicon glyphicon-import"></span></center></a>'
+							].join("")
+						}
+					} 
 					 ]/* ,  //改造JsonResult后就不需要配置这个属性了
 					responseHandler: function(res) {  //表格数据设置 
 						//console.log(res);
@@ -241,7 +271,6 @@
 					cname : $("#findcname").val(),
 					aname : $("#findaname").val()
 				};
-				console.log(temp);
 				return temp;
 			};
 	
@@ -256,7 +285,6 @@
 				$("#btn_delete").click(function() {
 					var arrselections = commonCheck(false);
 					if(arrselections==null)return;
-					console.log(arrselections);
 					Tip.confirm({
 						message : "确认要删除选择的数据吗？"
 					}).on(function(e) {
@@ -274,7 +302,6 @@
 				});
 				$("#btn_edit").click(function(){
 					//清空表单数据
-					console.log($("#id").val());
 					var arrselections = commonCheck(true);
 					if(arrselections==null)return;
 					var temp={cname:arrselections[0].cname,id:arrselections[0].id,tnumber:arrselections[0].tnumber,timetag:arrselections[0].timeTag,machinetag:arrselections[0].machineTag,startdate:arrselections[0].startDate,enddate:arrselections[0].endDate};
@@ -298,10 +325,11 @@
 					$("#tb_order").bootstrapTable("refresh");
 				});
 				$("#btn_upload").click(function() {
+					 var myid=$("#classid").val();
 					 var formData = new FormData($('#uploadForm')[0]);
 					 			$.ajax({  
 									type: 'POST',  
-									url: 'restupload.do',  
+									url: myid+'/restupload.do',  
 									cache: false,
                						processData: false,
                 					contentType: false, 
@@ -345,7 +373,9 @@
 	    		toastr.error(res.message);
 	    	}
 		}
-		
+		function detail(id){
+			$("#classid").attr("value", id);
+		}
 	</script>
 	<!-- /. WRAPPER  -->
 </body>

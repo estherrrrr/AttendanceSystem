@@ -21,7 +21,6 @@ public class AcademyController {
 	
 	@GetMapping("/restacademy")
 	public JsonResult<Academy> getAcademy(){
-		System.out.println("11111");
 		List<Academy> list = academyMapper.selectByExample(null);
 		
 		return new JsonResult<Academy>(list);
