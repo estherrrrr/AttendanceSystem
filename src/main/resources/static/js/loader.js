@@ -31,7 +31,7 @@ document.write('<script src="'+getRootPath()+'/js/tip.js"></script>');
 //rest风格插件（包含表单数据封装）
 document.write('<script src="'+getRootPath()+'/js/restful.js"></script>');
 //echart图表
-document.write('<script src="'+getRootPath()+'/js/echarts.common.min.js"></script>');
+document.write('<script src="'+getRootPath()+'/js/echarts.js"></script>');
 //其他组件
 document.write('<script src="'+getRootPath()+'/js/jquery.metisMenu.js"></script>');
 document.write('<script src="'+getRootPath()+'/js/jquery.backstretch.min.js"></script>');
