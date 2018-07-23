@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<title>统计信息</title>
+<script type="text/javascript" th:src="@{/js/loader.js}"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<div th:replace="part/main::#header"></div>
+		<div th:replace="part/main::#menu"></div>
+		<!-- /. NAV SIDE  -->
+		<div id="page-wrapper">
+			<div id="page-inner">
+				<div class="panel panel-primary">
+					<div class="panel-heading">学院详细考勤情况</div>
+						<div class="panel-body">
+							<div class="row">
+								<div id="quantity-bar-echarts" style="width: 600px;height:400px;"></div>
+								<div id="topclasses" style="width: 600px;height:400px;"></div>
+							</div>
+						</div>
+					
+				</div>
+		
+			</div>
+			<!-- /. PAGE INNER  -->
+		</div>
+		<!-- /. PAGE WRAPPER  -->
+	</div>
+	<!-- /. WRAPPER  -->
+	<!-- JS Scripts-->
+	<script type="text/javascript">
+         
+       $.queryAll("showacademydetail.do",function(res){
+	
+          var myChart = echarts.init(document.getElementById('quantity-bar-echarts'));
+       
+          var option = {
+             title: {
+               text: '出勤率'
+             },
+             xAxis: {
+               type: 'category',
+               data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+             },
+             yAxis: {
+             	type: 'value',
+             	min: 0,
+		        max: 100,
+		        interval: 20,
+		        axisLabel: { 
+		            formatter: '{value} %' 
+		       	}
+		     },
+            series: [{
+               type: 'line',
+               smooth: true,
+               data: res.data
+            }]
+          };
+         
+         myChart.setOption(option);
+        
+	   }); 
+	   
+	   $.queryAll("showtopclass.do",function(res){
+	   var names = new Array();
+	   var nums = new Array();
+	   $.each(res.data,function(){
+				names.push(this.name);
+				nums.push(this.num);
+				})
+	   var myClasses = echarts.init(document.getElementById('topclasses'));
+	   var itemStyle = {
+		    normal: {
+		    	color: function (params){
+                        var colorList = ['rgb(164,205,238)','rgb(42,170,227)','rgb(25,46,94)','rgb(195,229,235)'];
+                        return colorList[params.dataIndex];
+                    }
+		    },
+		    emphasis: {
+		        barBorderWidth: 1,
+		        shadowBlur: 10,
+		        shadowOffsetX: 0,
+		        shadowOffsetY: 0,
+		        shadowColor: 'rgba(0,0,0,0.5)'
+		    }
+		};
+	   var classoption = {
+              title: {
+                      text: '学院最受欢迎课程',
+                      subtext: '根据出勤情况推荐'
+              },
+              tooltip: {
+                      trigger: 'axis',
+                      axisPointer: {
+                                type: 'shadow'
+                      }
+              },
+              legend: {  data: ['出勤率']   },
+              grid: {
+                      left: '3%',
+                      right: '4%',
+                      bottom: '3%',
+                      containLabel: true
+              },
+              xAxis: {
+                     type: 'value',
+                     boundaryGap: [0, 0.01]
+              },
+              yAxis: {
+                     type: 'category',
+                     data: names
+              },
+              series: [
+              {
+                     name: '出勤率',
+                     type: 'bar',
+                     barWidth : 40,
+               		 itemStyle: itemStyle,
+                     data: nums
+              }]
+        };
+	    myClasses.setOption(classoption);
+	   });
+	</script>
+</body>
+</html>
