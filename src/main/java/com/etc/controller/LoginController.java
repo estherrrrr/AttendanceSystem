@@ -48,7 +48,8 @@ public class LoginController {
 		}
 		else if(sex.equals("teacher")){
 			TeacherExample te=new TeacherExample();
-			te.createCriteria().andTnameEqualTo(adminname).andPwdEqualTo(password);
+			int tnumber = Integer.parseInt(adminname);
+			te.createCriteria().andTnumberEqualTo(tnumber).andPwdEqualTo(password);
 			List<Teacher> teachers = teacherMapper.selectByExample(te);
 			if(teachers.size()!=1){
 				request.setAttribute("msg", "您输入的用户名或密码错误！");
@@ -59,7 +60,7 @@ public class LoginController {
 			}
 		}else{
 			StudentExample se=new StudentExample();
-			se.createCriteria().andSnameEqualTo(adminname).andPwdEqualTo(password);
+			se.createCriteria().andSnumberEqualTo(adminname).andPwdEqualTo(password);
 			List<Student> students = studentMapper.selectByExample(se);
 			if(students.size()!=1){
 				request.setAttribute("msg", "您输入的用户名或密码错误！");

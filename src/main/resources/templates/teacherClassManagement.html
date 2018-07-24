@@ -8,7 +8,7 @@
 <title>课程管理</title>
 <script type="text/javascript" th:src="@{/js/loader.js}"></script>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
   <div class="wrapper">
 		<div th:replace="part/teacherMain::#header"></div>
 		<div th:replace="part/teacherMain::#menu"></div>
@@ -128,7 +128,7 @@
 			//2.初始化Button的点击事件
 			var oButtonInit = new ButtonInit();
 			oButtonInit.Init();
-			alert($("span#tname").text());
+			
 			AcademyInit();
 			
 		});
@@ -152,7 +152,7 @@
 			//初始化Table
 			oTableInit.Init = function() {
 				$("#tb_order").bootstrapTable({
-					url : "restclasses.do", //请求后台的URL（*）
+					url : $("span#tnumber").text()+"/restclasses.do", //请求后台的URL（*）
 					method : "get", //请求方式（*）
 					toolbar : "#toolbar", //工具按钮用哪个容器
 					queryParamsType : "limit", //采用restful风格发送数据
@@ -242,9 +242,6 @@
 					//search: params.search,  //搜索框
 					sort: params.sort,    //排序字段
 					order: params.order,  //排序方式
-					tname : $("#findtname").val(),
-					cname : $("#findcname").val(),
-					aname : $("#findaname").val()
 				};
 				return temp;
 			};

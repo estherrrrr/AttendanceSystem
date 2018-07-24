@@ -1,5 +1,6 @@
 package com.etc.controller;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +32,17 @@ public class ClassesControlelr {
 			String sort,String order,String cname,String tname,String aname){
 		PageHelper.startPage(pageNum, pageSize, sort+" "+order);
 		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("cname",cname);param.put("tname",tname);param.put("aname",aname);
+		param.put("cname",cname);param.put("tname",tname);param.put("aname",aname);param.put("tnumber",0);
+		List<Map<String,Object>> list = classesService.findByCondition(param);
+		PageInfo<Map<String,Object>> pageInfo = new PageInfo<Map<String,Object>>(list);
+		return new JsonResult<Map<String,Object>>(pageInfo);
+	}
+	@GetMapping("/{id}/restclasses")
+	public JsonResult<Map<String,Object>> showMyClasses(@PathVariable int id,int pageSize,int pageNum,
+			String sort,String order){
+		PageHelper.startPage(pageNum, pageSize, sort+" "+order);
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("tnumber",id);
 		List<Map<String,Object>> list = classesService.findByCondition(param);
 		PageInfo<Map<String,Object>> pageInfo = new PageInfo<Map<String,Object>>(list);
 		return new JsonResult<Map<String,Object>>(pageInfo);

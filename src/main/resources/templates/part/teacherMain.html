@@ -9,10 +9,10 @@
 	<script type="text/javascript" th:src="@{/js/loader.js}"></script>
   </head>
   
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
   <div class="wrapper">
   	<header class="main-header" id="header">
-	    <a href="#" class="logo">
+	    <a th:href="@{/teachermain.do}" class="logo">
 	      <span class="logo-mini"><b>A</b>MS</span>
 	      <span class="logo-lg">考勤管理系统</span>
 	    </a>
@@ -27,8 +27,9 @@
 	        <ul class="nav navbar-nav">
 	          <li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-					<span id="tname" th:text="${session.admin.tname }"></span>
-					<i class="fa fa-user fa-fw" style="color:#337ab7;"></i> <i class="fa fa-caret-down" style="color:#337ab7;"></i>
+					<span th:text="${session.admin.tname }"></span>
+					<span id="tnumber" th:text="${session.admin.tnumber}" style="display:none;"></span>
+					<i class="fa fa-user fa-fw" style="color:#ffffff;"></i> <i class="fa fa-caret-down" style="color:#ffffff;"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-user">
 					<li>

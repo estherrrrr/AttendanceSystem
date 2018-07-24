@@ -38,7 +38,7 @@ document.write('<script src="'+getRootPath()+'/js/jquery.backstretch.min.js"></s
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/custom-styles.css"/>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/font-awesome.css"/>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/AdminLTE.css"/>');
-document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/skin-blue.css"/>');
+document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/skin-blue-light.css"/>');
 document.write('<link rel="stylesheet" href="'+getRootPath()+'/css/blue.css"/>');
 document.write('<script src="'+getRootPath()+'/js/adminlte.js"></script>');
 document.write('<script src="'+getRootPath()+'/js/icheck.js"></script>');
