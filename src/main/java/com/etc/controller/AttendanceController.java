@@ -26,10 +26,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.etc.entity.Academy;
 import com.etc.entity.Attendance;
 import com.etc.entity.JsonResult;
+import com.etc.hadoop.AcademyCount;
 import com.etc.hadoop.SchoolCount;
+import com.etc.service.AcademyService;
 import com.etc.service.AttendanceService;
+import com.etc.service.ClassesService;
 
 @RestController
 @RequestMapping("**.do")
@@ -37,6 +41,10 @@ public class AttendanceController {
 
 	@Autowired
 	private AttendanceService attendanceService;
+	@Autowired
+	private ClassesService classesService;
+	@Autowired
+	private AcademyService academyService;
 	
 	@GetMapping("/showschool")
 	public JsonResult<List<Map<String,List<Double>>>> showSchool() throws IOException, ClassNotFoundException, URISyntaxException, InterruptedException{
@@ -177,7 +185,49 @@ public class AttendanceController {
 	}
 	
 	@GetMapping("/showacademy")
-	public JsonResult<List<List<Double>>> showAcademy(){
+	public JsonResult<List<List<Double>>> showAcademy() throws ClassNotFoundException, IOException, URISyntaxException, InterruptedException{
+		
+		//AcademyCount.test("attendance.txt");
+		
+		List<Academy> academies=academyService.findAll();
+		Map<String,List<Integer>> classes=new HashMap<String,List<Integer>>();
+		Map<String,Double> attendance=new HashMap<String,Double>();
+		Map<String,Double> late=new HashMap<String,Double>();
+		for(Academy academy:academies){
+			List<Integer> classesid=classesService.findByAid(academy.getId());
+			classes.put(academy.getAname(), classesid);
+			attendance.put(academy.getAname(), 0.0);
+			late.put(academy.getAname(), 0.0);
+		}
+		
+		File file=new File("./src/main/resources/static/download/academyResult.txt");
+	    BufferedReader reader=null;
+		String temp=null;
+		int tid=0;
+		try{
+			reader=new BufferedReader(new FileReader(file));
+			while((temp=reader.readLine())!=null){
+				String[] info=temp.split("\t");
+				tid=Integer.parseInt(info[0]);
+				for(Academy academy:academies){
+					if(classes.get(academy.getAname()).contains(tid)){
+						if(info[1].equals("1")){
+							Double oldnum=attendance.get(academy.getAname());
+							oldnum+=Double.parseDouble(info[2]);
+							attendance.put(academy.getAname(),oldnum);
+						}else{
+							Double oldnum=late.get(academy.getAname());
+							oldnum+=Double.parseDouble(info[2]);
+							late.put(academy.getAname(),oldnum);
+						}
+							
+					}
+						
+				}
+			}
+		}catch(Exception e){e.printStackTrace();}
+		reader.close();
+		
 		List<Double> l1=new ArrayList<Double>();  //出勤率
 		l1.add(97.0);l1.add(99.2);l1.add(78.5);
 		List<Double> l2=new ArrayList<Double>();//缺勤率

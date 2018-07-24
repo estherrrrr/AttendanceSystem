@@ -27,6 +27,16 @@ public class ClassesService {
 	@Autowired
 	private TeacherMapper teacherMapper;
 	
+	public List<Integer> findByAid(int aid){
+		ClassesExample ce=new ClassesExample();
+		ce.createCriteria().andMachinetagEqualTo(aid);
+		List<Integer> list=new ArrayList<Integer>();
+		List<Classes> classes=classesMapper.selectByExample(ce);
+		for(Classes c:classes)
+			list.add(c.getTid());
+		return list;
+	}
+
 	public boolean doAdd(Classes classes){
 		TeacherExample te=new TeacherExample();
 		TeacherExample.Criteria tec=te.createCriteria().andTnumberEqualTo(classes.getTnumber());
