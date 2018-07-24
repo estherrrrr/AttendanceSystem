@@ -27,7 +27,7 @@
 	        <ul class="nav navbar-nav">
 	          <li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-					<span th:text="${session.admin.username }"></span>
+					<span id="tname" th:text="${session.admin.tname }"></span>
 					<i class="fa fa-user fa-fw" style="color:#337ab7;"></i> <i class="fa fa-caret-down" style="color:#337ab7;"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-user">
@@ -47,17 +47,12 @@
     	<section class="sidebar">
 		    <ul class="sidebar-menu" data-widget="tree">
 		        <li>
-		          <a th:href="@{/adminTeacherManagement.do}">
-		            <i class="fa fa-desktop"></i> <span>教师管理</span>
+		          <a th:href="@{/teacherClassManagement.do}">
+		            <i class="fa fa-desktop"></i> <span>课程管理</span>
 		          </a>
 		        </li>
 		        <li>
-		          <a th:href="@{/adminClassManagement.do}">
-		            <i class="fa fa-table"></i> <span>课程管理</span>
-		          </a>
-		        </li>
-		        <li>
-		          <a th:href="@{/adminAttendanceManagement.do}">
+		          <a th:href="@{/teacherAttendanceManagement.do}">
 		            <i class="fa fa-table"></i> <span>考勤管理</span>
 		          </a>
 		        </li>
@@ -69,9 +64,9 @@
 		            </span>
 		          </a>
 		          <ul class="treeview-menu">
-		            <li><a th:href="@{/schoolAttendance.do}"><i class="fa fa-circle-o text-red"></i> 全校考勤</a></li>
-		            <li><a th:href="@{/academyAttendance.do}"><i class="fa fa-circle-o text-yellow"></i> 学院考勤</a></li>
-		            <li><a th:href="@{/teachermyclasses.do}"><i class="fa fa-circle-o text-green"></i> 我的考勤</a></li>
+		            <li><a th:href="@{/teacherschoolAttendance.do}"><i class="fa fa-circle-o text-red"></i> 全校考勤</a></li>
+		            <li><a th:href="@{/teacheracademyAttendance.do}"><i class="fa fa-circle-o text-yellow"></i> 学院考勤</a></li>
+		            <li><a th:href="@{/teacherMyclasses.do}"><i class="fa fa-circle-o text-green"></i> 我的课程</a></li>
 		          </ul>
 		       	</li>
 		    </ul>

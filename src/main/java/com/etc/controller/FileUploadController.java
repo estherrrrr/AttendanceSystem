@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,14 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.etc.entity.JsonResult;
+import com.etc.hadoop.AttendanceCount;
 
 @RestController
 @RequestMapping("**.do")
 public class FileUploadController {
 	
 	@PostMapping("/restupload")
-	 public @ResponseBody JsonResult uploadImg(@RequestParam("file") MultipartFile file) {
-	        String contentType = file.getContentType();
+	 public @ResponseBody JsonResult uploadImg(@RequestParam("file") MultipartFile file) throws ClassNotFoundException, IOException, URISyntaxException, InterruptedException {
+			String contentType = file.getContentType();
 	        String fileName = file.getOriginalFilename();
 	        /*System.out.println("fileName-->" + fileName);
 	        System.out.println("getContentType-->" + contentType);*/
@@ -35,7 +37,9 @@ public class FileUploadController {
 	        } catch (Exception e) {
 	            // TODO: handle exception
 	        }
-	        //返回json
+	        AttendanceCount ac=new AttendanceCount();
+	        ac.test(fileName);
+	        
 	        return new JsonResult("uploadimg success");
 	    }
 	 @PostMapping("/{id}/restupload")

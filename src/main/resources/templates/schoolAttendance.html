@@ -42,7 +42,7 @@
                     show: true,
                     autoPlay: true,
                     playInterval: 1500,
-                    data: ['Week1', 'Week2', 'Week3']
+                    data: ['Week1', 'Week2', 'Week3', 'Week4']
                 },
 		    tooltip: {
 		        trigger: 'axis',
@@ -113,10 +113,10 @@
                     text: 'Week1'
                 },
                 series: [
-                    {data: [154,156,186,123,135]},
-                    {data: [23,43,33,12,65]},
-                    {data: [4,12,26,23,12]}, 
-                    {data: [67,87,45,98,34]}
+                    {data: [res.data[0].Mon[0],res.data[0].Tue[0],res.data[0].Wed[0],res.data[0].Thu[0],res.data[0].Fri[0]]},
+                    {data: [res.data[0].Mon[1],res.data[0].Tue[1],res.data[0].Wed[1],res.data[0].Thu[1],res.data[0].Fri[1]]},
+                    {data: [res.data[0].Mon[2],res.data[0].Tue[2],res.data[0].Wed[2],res.data[0].Thu[2],res.data[0].Fri[2]]}, 
+                    {data: [res.data[0].Mon[3],res.data[0].Tue[3],res.data[0].Wed[3],res.data[0].Thu[3],res.data[0].Fri[3]]}
                 ]
             },
             { // 这是'2003-01-01' 对应的 option
@@ -124,10 +124,10 @@
                     text: 'Week2'
                 },
                 series: [
-                    {data: [124,176,116,123,235]},
-                    {data: [13,33,73,62,15]},
-                    {data: [14,22,16,26,32]}, 
-                    {data: [47,77,85,58,74]}
+                    {data: [res.data[1].Mon[0],res.data[1].Tue[0],res.data[1].Wed[0],res.data[1].Thu[0],res.data[1].Fri[0]]},
+                    {data: [res.data[1].Mon[1],res.data[1].Tue[1],res.data[1].Wed[1],res.data[1].Thu[1],res.data[1].Fri[1]]},
+                    {data: [res.data[1].Mon[2],res.data[1].Tue[2],res.data[1].Wed[2],res.data[1].Thu[2],res.data[1].Fri[2]]}, 
+                    {data: [res.data[1].Mon[3],res.data[1].Tue[3],res.data[1].Wed[3],res.data[1].Thu[3],res.data[1].Fri[3]]}
                 ]
             },
             { // 这是'2004-01-01' 对应的 option
@@ -135,10 +135,21 @@
                     text: 'Week3'
                 },
                 series: [
-                    {data: [234,146,116,193,165]},
-                    {data: [12,13,73,42,35]},
-                    {data: [24,12,36,26,22]}, 
-                    {data: [57,67,35,88,64]}
+                    {data: [res.data[2].Mon[0],res.data[2].Tue[0],res.data[2].Wed[0],res.data[2].Thu[0],res.data[2].Fri[0]]},
+                    {data: [res.data[2].Mon[1],res.data[2].Tue[1],res.data[2].Wed[1],res.data[2].Thu[1],res.data[2].Fri[1]]},
+                    {data: [res.data[2].Mon[2],res.data[2].Tue[2],res.data[2].Wed[2],res.data[2].Thu[2],res.data[2].Fri[2]]}, 
+                    {data: [res.data[2].Mon[3],res.data[2].Tue[3],res.data[2].Wed[3],res.data[2].Thu[3],res.data[2].Fri[3]]}
+                ]
+            },  
+            { // 这是'2002-01-01' 对应的 option
+                title: {
+                    text: 'Week4'
+                },
+                series: [
+                    {data: [res.data[3].Mon[0],res.data[3].Tue[0],res.data[3].Wed[0],res.data[3].Thu[0],res.data[3].Fri[0]]},
+                    {data: [res.data[3].Mon[1],res.data[3].Tue[1],res.data[3].Wed[1],res.data[3].Thu[1],res.data[3].Fri[1]]},
+                    {data: [res.data[3].Mon[2],res.data[3].Tue[2],res.data[3].Wed[2],res.data[3].Thu[2],res.data[3].Fri[2]]}, 
+                    {data: [res.data[3].Mon[3],res.data[3].Tue[3],res.data[3].Wed[3],res.data[3].Thu[3],res.data[3].Fri[3]]}
                 ]
             }
         ]

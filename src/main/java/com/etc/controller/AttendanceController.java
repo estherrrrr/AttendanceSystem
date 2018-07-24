@@ -1,33 +1,179 @@
 package com.etc.controller;
 
-import java.io.Console;
-import java.io.UnsupportedEncodingException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.etc.entity.Attendance;
 import com.etc.entity.JsonResult;
+import com.etc.hadoop.SchoolCount;
+import com.etc.service.AttendanceService;
 
 @RestController
 @RequestMapping("**.do")
 public class AttendanceController {
 
-	@GetMapping("/showschool")
-	public JsonResult<List<Double>> showSchool(){
-		List<Double> map=new ArrayList<Double>();
-		map.add(97.0);map.add(93.8);
+	@Autowired
+	private AttendanceService attendanceService;
 	
-		JsonResult<List<Double>> list=new JsonResult<List<Double>>(map);
-		return list;
+	@GetMapping("/showschool")
+	public JsonResult<List<Map<String,List<Double>>>> showSchool() throws IOException, ClassNotFoundException, URISyntaxException, InterruptedException{
+		List<Attendance> attendances=attendanceService.findAll();
+		FileOutputStream fos = new FileOutputStream("./src/main/resources/static/download/attendance.txt");
+		OutputStreamWriter writer = new OutputStreamWriter(fos);
+		for(Attendance a:attendances){
+			writer.write(a.getSnumber() + "\t");
+			 writer.write(String.valueOf(a.getCid()) + "\t");
+			 writer.write(String.valueOf(a.getAstatus()) + "\t");
+             writer.write(a.getAdate()+"\r\n");
+		}
+		 writer.flush();
+         writer.close();
+         
+         SchoolCount.test("attendance.txt");
+       
+         
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
+		c.setTime(new Date());
+		long today=c.getTimeInMillis();
+        
+		List<Map<String,List<Double>>> list=new ArrayList<Map<String,List<Double>>>();
+		Map<String,List<Double>> week1=new HashMap<String,List<Double>>();
+		Map<String,List<Double>> week2=new HashMap<String,List<Double>>();
+		Map<String,List<Double>> week3=new HashMap<String,List<Double>>();
+		Map<String,List<Double>> week4=new HashMap<String,List<Double>>();
+		
+        File file=new File("./src/main/resources/static/download/attendanceResult.txt");
+		BufferedReader reader=null;
+		String temp=null;
+		long day=0;
+		Double attendentPeople=0.0;
+		Double latePeoplo=0.0;
+		try{
+			reader=new BufferedReader(new FileReader(file));
+			while((temp=reader.readLine())!=null){
+				String[] info=temp.split("\t");
+				String[] time=info[0].split(" ");
+				int month=1;
+				switch (time[1]){
+				case "Jul":month=7;break;
+				case "Jun":month=6;break;
+				}
+				int date=Integer.parseInt(time[2]);
+				c.set(2018,month,date);//这里与真实的月份之间相差1  
+		        long newday=c.getTimeInMillis();  
+		        day=(newday-today)/(1000*60*60*24);
+				
+				if(day<7){
+					if(info[1].equals("1")){
+						List<Double> l=new ArrayList<Double>();
+						attendentPeople=Double.parseDouble(info[2]);
+						l.add(attendentPeople);
+						week4.put(time[0], l);
+					}else{
+						List<Double> l=week4.get(time[0]);
+						latePeoplo=Double.parseDouble(info[2]);
+						l.add(latePeoplo);
+						l.add(250-latePeoplo-attendentPeople);
+						l.add((attendentPeople+latePeoplo)/250*100);
+						week4.put(time[0], l);
+					}	
+				}
+				else if(day<14){
+					if(info[1].equals("1")){
+						List<Double> l=new ArrayList<Double>();
+						attendentPeople=Double.parseDouble(info[2]);
+						l.add(attendentPeople);
+						week3.put(time[0], l);
+					}else{
+						List<Double> l=week3.get(time[0]);
+						latePeoplo=Double.parseDouble(info[2]);
+						l.add(latePeoplo);
+						l.add(250-latePeoplo-attendentPeople);
+						l.add((attendentPeople+latePeoplo)/250*100);
+						week3.put(time[0], l);
+					}	
+				}else if(day<21){
+					if(info[1].equals("1")){
+						List<Double> l=new ArrayList<Double>();
+						attendentPeople=Double.parseDouble(info[2]);
+						l.add(attendentPeople);
+						week2.put(time[0], l);
+					}else{
+						List<Double> l=week2.get(time[0]);
+						latePeoplo=Double.parseDouble(info[2]);
+						l.add(latePeoplo);
+						l.add(250-latePeoplo-attendentPeople);
+						l.add((attendentPeople+latePeoplo)/250*100);
+						week2.put(time[0], l);
+					}	
+				}else if(day<28){
+					if(info[1].equals("1")){
+						List<Double> l=new ArrayList<Double>();
+						attendentPeople=Double.parseDouble(info[2]);
+						l.add(attendentPeople);
+						week1.put(time[0], l);
+					}else{
+						List<Double> l=week1.get(time[0]);
+						latePeoplo=Double.parseDouble(info[2]);
+						l.add(latePeoplo);
+						l.add(250-latePeoplo-attendentPeople);
+						l.add((attendentPeople+latePeoplo)/250*100);
+						week1.put(time[0], l);
+					}	
+				}
+					
+				
+			}
+	     }catch(Exception e){e.printStackTrace();}
+		reader.close();
+		list.add(week1);list.add(week2);list.add(week3);list.add(week4);
+		
+		//判断是否有空的天数
+		for(Map<String,List<Double>> week:list){
+			if(week.size()!=4){
+				List<Double> l=new ArrayList<Double>();
+				l.add(0.0);l.add(0.0);l.add(0.0);l.add(0.0);
+				if(!week.containsKey("Mon")){
+					week.put("Mon", l);
+				}if(!week.containsKey("Tue")){
+					week.put("Tue", l);
+				}if(!week.containsKey("Wed")){
+					week.put("Wed", l);
+				}if(!week.containsKey("Thu")){
+					week.put("Thu", l);
+				}if(!week.containsKey("Fri")){
+					week.put("Fri", l);
+				}
+			}
+		}
+		
+		
+
+		return new JsonResult<List<Map<String,List<Double>>>>(list);
 	}
 	
 	@GetMapping("/showacademy")
