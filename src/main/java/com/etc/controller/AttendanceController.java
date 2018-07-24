@@ -28,8 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.etc.entity.Academy;
 import com.etc.entity.Attendance;
+import com.etc.entity.Classes;
 import com.etc.entity.JsonResult;
 import com.etc.hadoop.AcademyCount;
+import com.etc.hadoop.AcademyDetailCount;
 import com.etc.hadoop.SchoolCount;
 import com.etc.service.AcademyService;
 import com.etc.service.AttendanceService;
@@ -245,10 +247,28 @@ public class AttendanceController {
 	
 	
 	@GetMapping("/showacademydetail")
-	public JsonResult<List<Double>> showAcademyDetail(HttpServletRequest request){
+	public JsonResult<List<Double>> showAcademyDetail(HttpServletRequest request) throws ClassNotFoundException, IOException, URISyntaxException, InterruptedException{
 		
-		String academy =(String) request.getSession().getAttribute("academy"); 
+		String  aname=(String) request.getSession().getAttribute("academy"); 
+		Academy academy=academyService.findByAname(aname);
+		List<Integer> classesid=classesService.findByAid(academy.getId());
 		
+		AcademyDetailCount.test("attendance.txt");
+		
+		File file=new File("./src/main/resources/static/download/attendanceDetailResult.txt");
+	    BufferedReader reader=null;
+		String temp=null;
+		int tid=0;
+		try{
+			reader=new BufferedReader(new FileReader(file));
+			while((temp=reader.readLine())!=null){
+				String[] info=temp.split("\t");
+				if(classesid.contains(info[1])) {
+					
+				}
+			}
+		}catch(Exception e){e.printStackTrace();}
+		reader.close();
 		
 		List<Double> map=new ArrayList<Double>();
 		map.add(97.0);map.add(93.8);
@@ -259,7 +279,30 @@ public class AttendanceController {
 	}
 	
 	@GetMapping("/showtopclass")
-	public JsonResult<List<Map<String,Object>>> showTopClass(){
+	public JsonResult<List<Map<String,Object>>> showTopClass(HttpServletRequest request) throws IOException{
+		
+		String  aname=(String) request.getSession().getAttribute("academy"); 
+		Academy academy=academyService.findByAname(aname);
+		List<Integer> classesid=classesService.findByAid(academy.getId());
+		
+		File file=new File("./src/main/resources/static/download/academyResult.txt");
+	    BufferedReader reader=null;
+		String temp=null;
+		int tid=0;
+		try{
+			reader=new BufferedReader(new FileReader(file));
+			while((temp=reader.readLine())!=null){
+				String[] info=temp.split("\t");
+				if(classesid.contains(info[0])&&info[1].equals("1")) {
+					
+					Classes classes=classesService.findById(Integer.parseInt(info[0]));
+					
+					Map<String,Object> map1=new HashMap<String,Object>();
+					map1.put("name", classes.getCname());map1.put("num", 79.2);
+				}
+			}
+		}catch(Exception e){e.printStackTrace();}
+		reader.close();
 		
 		Map<String,Object> map1=new HashMap<String,Object>();
 		map1.put("name", "社交");map1.put("num", 79.2);
