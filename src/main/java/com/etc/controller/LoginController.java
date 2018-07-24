@@ -75,7 +75,7 @@ public class LoginController {
 	
 	@RequestMapping("logout")
 	public String logout(HttpServletRequest request){
-		request.setAttribute("msg", "您已安全推出系统！");
+		request.setAttribute("msg", "您已安全退出系统！");
 		request.getSession().invalidate();
 		return "login";
 	}
