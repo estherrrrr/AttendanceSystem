@@ -33,8 +33,14 @@ public class ClassesService {
 		List<Integer> list=new ArrayList<Integer>();
 		List<Classes> classes=classesMapper.selectByExample(ce);
 		for(Classes c:classes)
-			list.add(c.getTid());
+			list.add(c.getId());
 		return list;
+	}
+	public Classes findById(int id){
+		ClassesExample ce=new ClassesExample();
+		ce.createCriteria().andIdEqualTo(id);
+		List<Classes> classes=classesMapper.selectByExample(ce);
+		return classes.get(0);
 	}
 
 	public boolean doAdd(Classes classes){
