@@ -185,14 +185,14 @@ public class AttendanceController {
 	}
 	
 	@GetMapping("/showacademy")
-	public JsonResult<List<List<Double>>> showAcademy() throws ClassNotFoundException, IOException, URISyntaxException, InterruptedException{
+	public JsonResult<List<Map<String,Double>>> showAcademy() throws ClassNotFoundException, IOException, URISyntaxException, InterruptedException{
 		
 		//AcademyCount.test("attendance.txt");
 		
-		List<Academy> academies=academyService.findAll();
-		Map<String,List<Integer>> classes=new HashMap<String,List<Integer>>();
-		Map<String,Double> attendance=new HashMap<String,Double>();
-		Map<String,Double> late=new HashMap<String,Double>();
+		List<Academy> academies=academyService.findAll();//所有学院
+		Map<String,List<Integer>> classes=new HashMap<String,List<Integer>>();//每个学院其下的所有课程
+		Map<String,Double> attendance=new HashMap<String,Double>();//所有学院出勤数
+		Map<String,Double> late=new HashMap<String,Double>();//所有学院迟到数
 		for(Academy academy:academies){
 			List<Integer> classesid=classesService.findByAid(academy.getId());
 			classes.put(academy.getAname(), classesid);
@@ -210,6 +210,7 @@ public class AttendanceController {
 				String[] info=temp.split("\t");
 				tid=Integer.parseInt(info[0]);
 				for(Academy academy:academies){
+					
 					if(classes.get(academy.getAname()).contains(tid)){
 						if(info[1].equals("1")){
 							Double oldnum=attendance.get(academy.getAname());
@@ -219,8 +220,7 @@ public class AttendanceController {
 							Double oldnum=late.get(academy.getAname());
 							oldnum+=Double.parseDouble(info[2]);
 							late.put(academy.getAname(),oldnum);
-						}
-							
+						}break;	
 					}
 						
 				}
@@ -228,16 +228,18 @@ public class AttendanceController {
 		}catch(Exception e){e.printStackTrace();}
 		reader.close();
 		
-		List<Double> l1=new ArrayList<Double>();  //出勤率
-		l1.add(97.0);l1.add(99.2);l1.add(78.5);
-		List<Double> l2=new ArrayList<Double>();//缺勤率
-		l2.add(0.4);l2.add(0.8);l2.add(0.9);
-		List<Double> l3=new ArrayList<Double>();//迟到率
-		l3.add(0.2);l3.add(0.6);l3.add(0.9);
-		List<List<Double>> map=new ArrayList<List<Double>>();
-		map.add(l1);map.add(l2);map.add(l3);
-		JsonResult<List<List<Double>>> list=new JsonResult<List<List<Double>>>(map);
-		return list;
+		Map<String,Double> unattendents=new HashMap<String,Double>();
+		for(Academy academy:academies){
+			String aname=academy.getAname();
+			Double attnum=attendance.get(aname);
+			Double latenum=late.get(aname);
+			attendance.put(aname, attnum/50*100);
+			late.put(aname, latenum/50*100);
+			unattendents.put(aname, (latenum+attnum)/50*100);
+		}
+		List<Map<String,Double>> result=new ArrayList<Map<String,Double>>();
+		result.add(attendance);result.add(unattendents);result.add(late);
+		return new JsonResult<List<Map<String,Double>>>(result);
 	}
 	
 	
