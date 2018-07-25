@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,6 +49,10 @@ public class AttendanceController {
 	@Autowired
 	private AcademyService academyService;
 	
+	@GetMapping("/{id}/showtable")
+	public JsonResult<Map<String,Object>> getClassTable(@PathVariable int id){
+		return new JsonResult(attendanceService.attendanceDetail(id));
+	}
 	@GetMapping("/showschool")
 	public JsonResult<List<Map<String,List<Double>>>> showSchool() throws IOException, ClassNotFoundException, URISyntaxException, InterruptedException{
 		List<Attendance> attendances=attendanceService.findAll();

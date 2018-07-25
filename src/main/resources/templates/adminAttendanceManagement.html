@@ -8,7 +8,7 @@
 <title>考勤管理</title>
 <script type="text/javascript" th:src="@{/js/loader.js}"></script>
 </head>
-<body class="hold-transition skin-blue-light sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
 		<div th:replace="part/main::#header"></div>
 		<div th:replace="part/main::#menu"></div>
@@ -83,8 +83,19 @@
 										<button type="button" class="close" data-dismiss="modal"
 											aria-hidden="true">×</button>
 											<form id="editForm">
-											<table class="table" style="font: '黑体';">
-												
+											<table class="table table-bordered table-hover" id="attTable" name="attTable" style="font: '黑体';">
+												<thead>
+        											<tr>
+        												<td>学号</td>
+        												<td>第一周</td>
+        												<td>第二周</td>
+        												<td>第三周</td>
+        												<td>第四周</td>
+        												<td>第五周</td>
+        											</tr>
+    											</thead>
+    											<tbody>
+    											</tbody>
 											</table>
 											</form>
 											<div class="modal-footer">
@@ -198,7 +209,7 @@
 	                    valign: "middle",
 	                    formatter: function(value, row, index) {   //添加链接
 							return [
-								'<a href="#" data-toggle="modal" data-target="#myModal" onclick="detail('+row.oid+')"><center><span class="glyphicon glyphicon-list-alt"></span></center></a>'
+								'<a data-toggle="modal"  onclick="detail('+row.id+')"><center><span class="glyphicon glyphicon-list-alt"></span></center></a>'
 							].join("")
 						}
 					} ]/* ,  //改造JsonResult后就不需要配置这个属性了
@@ -267,6 +278,21 @@
 									success: function(data){
 									    console.log(1);
 										$("#uploadModal").modal("hide");
+										toastr.success(data.message);
+										$.ajax({  
+									type: 'GET',  
+									url: 'restinsert.do',  
+									cache: false,
+               						processData: false,
+                					contentType: false, 
+									success: function(data){
+									    console.log(1);
+										$("#uploadModal").modal("hide");
+										toastr.success(data.message);
+									},  
+									error: function() {toastr.error("导入失败！");},  
+									timeout:60000  
+								});
 									},  
 									error: function() {toastr.error("操作异常！");},  
 									timeout:60000  
@@ -303,7 +329,43 @@
 	    		toastr.error(res.message);
 	    	}
 		}
-				
+		function detail(id){
+			$.ajax({  
+			type: 'GET',  
+			url: id+'/showtable.do',  
+			contentType: 'application/json',  
+			success: function(data){
+				$("#attTable thead").html('');
+				var str="<tr><td>学号</td>";
+				for(var i=0;i<data.data.count;i++){
+					str+="<td>第";
+					str+=i+1;
+					str+="周</td>";
+				}
+				str+="</tr>";
+				$("#attTable thead").append(str);
+				$("#attTable tbody").html('');
+				for(var i in data.data.attend){
+					str="<tr><td>"+i+"</td>";
+					for(var j in data.data.attend[i])
+					{
+						if(data.data.attend[i][j]=="0")
+							str+="<td><span class='label label-danger'></label></td>";
+						else if(data.data.attend[i][j]=="1")
+							str+="<td><span class='label label-success'>正常</label></td>";
+						else if(data.data.attend[i][j]=="2")
+							str+="<td><span class='label label-primary'>迟到</label></td>";
+					}	
+					str+="</tr>"
+					$("#attTable tbody").append(str);
+				}
+					
+				$("#myModal").modal();
+			},  
+			error: function() {toastr.error("操作异常！");},  
+			timeout:60000  
+			});  	
+		}		
 	</script>
 	<!-- /. WRAPPER  -->
 </body>

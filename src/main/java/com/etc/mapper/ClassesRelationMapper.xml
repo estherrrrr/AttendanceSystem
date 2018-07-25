@@ -11,8 +11,8 @@
         <if test="tname!=null and tname!='' ">
         	and tname like CONCAT('%',#{tname},'%')
         </if>
-        <if test="tnumber!=0 ">
-        	and tnumber like CONCAT('%',#{tnumber},'%')
+        <if test="tid!=0">
+        	and tid = #{tid}
         </if>
         <if test="aname!=null and aname!='' ">
         	and aname like CONCAT('%',#{aname},'%')

@@ -32,7 +32,7 @@ public class ClassesControlelr {
 			String sort,String order,String cname,String tname,String aname){
 		PageHelper.startPage(pageNum, pageSize, sort+" "+order);
 		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("cname",cname);param.put("tname",tname);param.put("aname",aname);param.put("tnumber",0);
+		param.put("cname",cname);param.put("tname",tname);param.put("aname",aname);param.put("tid",0);
 		List<Map<String,Object>> list = classesService.findByCondition(param);
 		PageInfo<Map<String,Object>> pageInfo = new PageInfo<Map<String,Object>>(list);
 		return new JsonResult<Map<String,Object>>(pageInfo);
@@ -42,7 +42,7 @@ public class ClassesControlelr {
 			String sort,String order){
 		PageHelper.startPage(pageNum, pageSize, sort+" "+order);
 		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("tnumber",id);
+		param.put("tid",id);
 		List<Map<String,Object>> list = classesService.findByCondition(param);
 		PageInfo<Map<String,Object>> pageInfo = new PageInfo<Map<String,Object>>(list);
 		return new JsonResult<Map<String,Object>>(pageInfo);
