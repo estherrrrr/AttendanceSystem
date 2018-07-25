@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -60,6 +61,12 @@ public class AttendanceController {
 	
 	private List<Integer> classesid=null;//该学院所有课程id
 	
+	@GetMapping("changepsw")
+	public JsonResult<List<String>> changePsw(){
+		List<String> list = new LinkedList<String>();
+		list.add("success");
+		return new JsonResult(list);
+	}
 	@GetMapping("/{id}/showtable")
 	public JsonResult<Map<String,Object>> getClassTable(@PathVariable int id) throws IOException{
 		return new JsonResult(attendanceService.attendanceDetail(id));
@@ -124,7 +131,9 @@ public class AttendanceController {
 						latePeoplo=Double.parseDouble(info[2]);
 						l.add(latePeoplo);
 						l.add(COUNT-latePeoplo-attendentPeople);
-						l.add((attendentPeople+latePeoplo)/COUNT*100);
+						double rate = (attendentPeople+latePeoplo)/COUNT*100;
+						rate = (double)Math.round(rate*100)/100;
+						l.add(rate);
 						week4.put(time[0], l);
 					}	
 				}
@@ -139,7 +148,9 @@ public class AttendanceController {
 						latePeoplo=Double.parseDouble(info[2]);
 						l.add(latePeoplo);
 						l.add(COUNT-latePeoplo-attendentPeople);
-						l.add((attendentPeople+latePeoplo)/COUNT*100);
+						double rate = (attendentPeople+latePeoplo)/COUNT*100;
+						rate = (double)Math.round(rate*100)/100;
+						l.add(rate);
 						week3.put(time[0], l);
 					}	
 				}else if(day<21){
@@ -153,7 +164,9 @@ public class AttendanceController {
 						latePeoplo=Double.parseDouble(info[2]);
 						l.add(latePeoplo);
 						l.add(COUNT-latePeoplo-attendentPeople);
-						l.add((attendentPeople+latePeoplo)/COUNT*100);
+						double rate = (attendentPeople+latePeoplo)/COUNT*100;
+						rate = (double)Math.round(rate*100)/100;
+						l.add(rate);
 						week2.put(time[0], l);
 					}	
 				}else if(day<28){
@@ -167,7 +180,9 @@ public class AttendanceController {
 						latePeoplo=Double.parseDouble(info[2]);
 						l.add(latePeoplo);
 						l.add(COUNT-latePeoplo-attendentPeople);
-						l.add((attendentPeople+latePeoplo)/COUNT*100);
+						double rate = (attendentPeople+latePeoplo)/COUNT*100;
+						rate = (double)Math.round(rate*100)/100;
+						l.add(rate);
 						week1.put(time[0], l);
 					}	
 				}
@@ -258,8 +273,15 @@ public class AttendanceController {
 			Double attnum=attendance.get(aname);
 			Double latenum=late.get(aname);
 			int total=classesnum.get(aname)*30*4;
-			attendance.put(aname, (attnum+latenum)/total*100);
-			late.put(aname, latenum/total*100);
+			
+			double rate = (attnum+latenum)/total*100;
+			rate = (double)Math.round(rate*100)/100;
+			attendance.put(aname, rate);
+			
+			rate = latenum/total*100;
+			rate = (double)Math.round(rate*100)/100;
+			late.put(aname, rate);
+			
 			unattendents.put(aname, 100-attendance.get(aname));
 		}
 		List<Map<String,Double>> result=new ArrayList<Map<String,Double>>();
@@ -367,7 +389,9 @@ public class AttendanceController {
 					Classes classes=classesService.findById(Integer.parseInt(info[0]));
 					
 					Map<String,Object> map1=new HashMap<String,Object>();
-					map1.put("name", classes.getCname());map1.put("num", Double.parseDouble(info[1])/(4*30)*100);
+					double rate = Double.parseDouble(info[1])/(4*30)*100;
+					rate = (double)Math.round(rate*100)/100;
+					map1.put("name", classes.getCname());map1.put("num", rate);
 					list.add(map1);
 				}
 			}
