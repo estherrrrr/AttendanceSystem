@@ -22,6 +22,7 @@
 	        			<div class="box box-primary" style="margin-top:20%;padding:5px 15px;">
 				            <div class="box-header with-border">
 				              <h3 class="box-title">修改密码</h3>
+				             <input type="hidden" id="pwd" name="pwd" th:value="${session.admin.pwd }"/>
 				            </div>
 				            <div class="box-body" style="font: '微软雅黑';padding:10px;">
 								<form id="accountForm" enctype="multipart/form-data">
@@ -58,19 +59,14 @@
 	<script type="text/javascript" th:inline="javascript">
    		
    		var changePwd=function(){
-   			$.ajax({  
-			type: 'GET',  
-			url: 'changepsw.do',  
-			contentType: 'application/json',  
-			success: function(data){
-				toastr.success(data.msg);
-			},  
-			error: function() {},  
-			timeout:60000  
-			}); 
 			console.log(1);
 			if(($("#new").val())!=($("#newagain").val()))
 				toastr.error("两次输入的新密码不一致！");
+			else if($("#new").val().length<8||$("#new").val().length>16)
+				toastr.error("密码必须为8-16位！");
+			else{
+				
+			}
    		};
    		
     </script>

@@ -39,6 +39,7 @@ public class LoginController {
 	@RequestMapping("/login")
 	public String login(@RequestParam(required=true)String adminname,
 			@RequestParam(required=true)String password,@RequestParam(required=true)String sex,HttpServletRequest request) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		request.getSession().setAttribute("sex",sex);
 		password = md5Service.EncoderByMd5(password);
 		if(sex.equals("manager")){
 			AdminExample ae = new AdminExample();
@@ -92,6 +93,22 @@ public class LoginController {
 		request.setAttribute("msg", "您已安全退出系统！");
 		request.getSession().invalidate();
 		return "login";
+	}
+	
+	@RequestMapping("pwd")
+	public String passwordPage(HttpServletRequest request){
+		String sex=(String) request.getSession().getAttribute("sex");
+		if(sex.equals("manager"))
+			return "adminPwd";
+		else if(sex.equals("teacher"))
+			return "teacherPwd";
+		else
+			return "studentPwd";
+	}
+	
+	@RequestMapping("change")
+	public String changePsw(){
+		return null;
 	}
 
 	@RequestMapping("/academy")
