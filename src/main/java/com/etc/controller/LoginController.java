@@ -1,5 +1,7 @@
 package com.etc.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,8 @@ import com.etc.dao.AdminMapper;
 import com.etc.dao.StudentMapper;
 import com.etc.dao.TeacherMapper;
 import com.etc.entity.*;
+import com.etc.service.ClassesService;
+import com.etc.service.MD5Service;
 
 @Controller
 public class LoginController {
@@ -24,6 +28,8 @@ public class LoginController {
 	private TeacherMapper teacherMapper;
 	@Autowired
 	private StudentMapper studentMapper;
+	@Autowired
+	private MD5Service md5Service;
 	
 	@GetMapping({"/","login.html"})
 	public String gotoIndex(){
@@ -32,8 +38,8 @@ public class LoginController {
 	
 	@RequestMapping("/login")
 	public String login(@RequestParam(required=true)String adminname,
-			@RequestParam(required=true)String password,@RequestParam(required=true)String sex,HttpServletRequest request){
-
+			@RequestParam(required=true)String password,@RequestParam(required=true)String sex,HttpServletRequest request) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		password = md5Service.EncoderByMd5(password);
 		if(sex.equals("manager")){
 			AdminExample ae = new AdminExample();
 			ae.createCriteria().andUsernameEqualTo(adminname).andPwdEqualTo(password);

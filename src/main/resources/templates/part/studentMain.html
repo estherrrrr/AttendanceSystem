@@ -49,32 +49,17 @@
 	<aside class="main-sidebar" id="menu">
     	<section class="sidebar">
 		    <ul class="sidebar-menu" data-widget="tree">
-		        <li>
-		          <a th:href="@{/adminTeacherManagement.do}">
-		            <i class="fa fa-desktop"></i> <span>教师管理</span>
-		          </a>
-		        </li>
-		        <li>
-		          <a th:href="@{/adminClassManagement.do}">
-		            <i class="fa fa-table"></i> <span>课程管理</span>
-		          </a>
-		        </li>
-		        <li>
-		          <a th:href="@{/adminAttendanceManagement.do}">
-		            <i class="fa fa-table"></i> <span>考勤管理</span>
-		          </a>
-		        </li>
 		        <li class="treeview">
 		          <a href="#">
-		            <i class="fa fa-dashboard"></i> <span>考勤统计</span>
+		            <i class="fa fa-dashboard"></i> <span style="color:#808080;">考勤统计</span>
 		            <span class="pull-right-container">
 		              <i class="fa fa-angle-left pull-right"></i>
 		            </span>
 		          </a>
 		          <ul class="treeview-menu">
-		            <li><a th:href="@{/schoolAttendance.do}"><i class="fa fa-circle-o text-red"></i> 全校考勤</a></li>
-		            <li><a th:href="@{/academyAttendance.do}"><i class="fa fa-circle-o text-yellow"></i> 学院考勤</a></li>
-		            <li><a th:href="@{/studentmyclasses.do}"><i class="fa fa-circle-o text-green"></i> 我的考勤</a></li>
+		            <li><a th:href="@{/studentschoolAttendance.do}"><i class="fa fa-circle-o text-red"></i> 全校考勤</a></li>
+		            <li><a th:href="@{/studentacademyAttendance.do}"><i class="fa fa-circle-o text-yellow"></i> 学院考勤</a></li>
+		            <li><a th:href="@{/studentstudentMyclasses.do}"><i class="fa fa-circle-o text-green"></i> 我的考勤</a></li>
 		          </ul>
 		       	</li>
 		    </ul>
