@@ -7,7 +7,7 @@
 <meta name="content-type" content="text/html; charset=UTF-8">
 <title>管理员首页</title>
 <script type="text/javascript" th:src="@{/js/loader.js}"></script>
-
+<script type="text/javascript" th:src="@{/js/md5.js}"></script>
 </head>
 <body class="hold-transition skin-blue-light sidebar-mini">
 <div th:replace="part/main::#header"></div>
@@ -22,7 +22,8 @@
 	        			<div class="box box-primary" style="margin-top:20%;padding:5px 15px;">
 				            <div class="box-header with-border">
 				              <h3 class="box-title">修改密码</h3>
-				             <input type="hidden" id="pwd" name="pwd" th:value="${session.admin.pwd }"/>
+				             <input type="hidden" id="pwd" name="pwd" th:value="${session.admin.username }"/>
+				             <input type="hidden" id="sex" name="sex" th:value="${session.sex }"/>
 				            </div>
 				            <div class="box-body" style="font: '微软雅黑';padding:10px;">
 								<form id="accountForm" enctype="multipart/form-data">
@@ -59,13 +60,29 @@
 	<script type="text/javascript" th:inline="javascript">
    		
    		var changePwd=function(){
-			console.log(1);
+   			password=$("#old").val();
+			console.log($("#pwd").val());
+			console.log($.md5(password));
 			if(($("#new").val())!=($("#newagain").val()))
 				toastr.error("两次输入的新密码不一致！");
 			else if($("#new").val().length<8||$("#new").val().length>16)
 				toastr.error("密码必须为8-16位！");
 			else{
-				
+					var temp={newPwd:$("#new").val(),oldPwd:$("#old").val(),username:$("#pwd").val(),sex:$("#sex").val()}
+					console.log(temp);
+						$.ajax({  
+									type: 'GET',  
+									url: 'restchange.do',  
+									cache: false,
+                					contentType: 'application/json', 
+									data:temp, 
+									success: function(data){
+									    console.log(data.msg);
+										
+									},  
+									error: function() {toastr.error("操作异常！");},  
+									timeout:60000  
+								});				
 			}
    		};
    		

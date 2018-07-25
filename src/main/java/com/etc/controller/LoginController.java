@@ -106,10 +106,6 @@ public class LoginController {
 			return "studentPwd";
 	}
 	
-	@RequestMapping("change")
-	public String changePsw(){
-		return null;
-	}
 
 	@RequestMapping("/academy")
 	public String showMyAca(@RequestParam String academy,HttpServletRequest request){
