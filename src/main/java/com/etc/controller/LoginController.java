@@ -48,7 +48,14 @@ public class LoginController {
 		}
 		else if(sex.equals("teacher")){
 			TeacherExample te=new TeacherExample();
-			int tnumber = Integer.parseInt(adminname);
+			int tnumber = 0;
+			try{
+				tnumber = Integer.parseInt(adminname);
+			}
+			catch(NumberFormatException ex){
+				request.setAttribute("msg", "用户名格式错误！");
+				return "login";
+			}
 			te.createCriteria().andTnumberEqualTo(tnumber).andPwdEqualTo(password);
 			List<Teacher> teachers = teacherMapper.selectByExample(te);
 			if(teachers.size()!=1){

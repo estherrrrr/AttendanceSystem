@@ -25,13 +25,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 
 public class AttendanceCount {
-	static  String INPUT_PATH="hdfs://classes14:9000/input/";
-	static  String OUTPUT_PATH="hdfs://classes14:9000/output";
+	static  String INPUT_PATH="hdfs://hadoop:9000/input/";
+	static  String OUTPUT_PATH="hdfs://hadoop:9000/attendoutput";
 	private static URI uri = null;
 	
 	static{
 		try {
-			uri = new URI("hdfs://classes14:9000");
+			uri = new URI("hdfs://hadoop:9000");
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -62,7 +62,7 @@ public class AttendanceCount {
 	}
 	private static void readFromServer() throws IOException{
 		FileSystem fs = FileSystem.get(uri,new Configuration());
-		FSDataInputStream fsdis = fs.open(new Path("/output/part-r-00000"));
+		FSDataInputStream fsdis = fs.open(new Path("/attendoutput/part-r-00000"));
 		FileOutputStream fos = new FileOutputStream("./src/main/resources/static/download/test.txt");
 		IOUtils.copyBytes(fsdis, fos, 1024, true);
 		IOUtils.closeStream(fsdis);
@@ -107,7 +107,7 @@ public class AttendanceCount {
 				status=1;
 				w2=1;	
 			}
-			else if(get_time(hour,minute,seconds)>=get_time(8,6,0)&&get_time(hour,minute,seconds)<=get_time(9,40,0)){
+			else if(get_time(hour,minute,seconds)>=get_time(8,5,0)&&get_time(hour,minute,seconds)<=get_time(9,40,0)){
 				status=2;
 				w2=1;	
 			}
@@ -115,7 +115,7 @@ public class AttendanceCount {
 				status=1;
 				w2=2;	
 			}
-			else if(get_time(hour,minute,seconds)>=get_time(10,16,0)&&get_time(hour,minute,seconds)<=get_time(11,50,0)){
+			else if(get_time(hour,minute,seconds)>=get_time(10,15,0)&&get_time(hour,minute,seconds)<=get_time(11,50,0)){
 				status=2;
 				w2=2;	
 			}
@@ -123,7 +123,7 @@ public class AttendanceCount {
 				status=1;
 				w2=3;	
 			}
-			else if(get_time(hour,minute,seconds)>=get_time(14,36,0)&&get_time(hour,minute,seconds)<=get_time(16,10,0)){
+			else if(get_time(hour,minute,seconds)>=get_time(14,35,0)&&get_time(hour,minute,seconds)<=get_time(16,10,0)){
 				status=2;
 				w2=3;	
 			}
@@ -131,7 +131,7 @@ public class AttendanceCount {
 				status=1;
 				w2=4;	
 			}
-			else if(get_time(hour,minute,seconds)>=get_time(16,46,0)&&get_time(hour,minute,seconds)<=get_time(18,20,0)){
+			else if(get_time(hour,minute,seconds)>=get_time(16,45,0)&&get_time(hour,minute,seconds)<=get_time(18,20,0)){
 				status=2;
 				w2=4;	
 			}

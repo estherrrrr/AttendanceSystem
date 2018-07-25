@@ -22,13 +22,16 @@
               </div>
               <!-- /.card-header -->
               <div class="panel-body p-0">
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" id="classesAtend">
+                <thead>
                   <tr>
                     <th style="width: 10px">#</th>
                     <th style="width: 30%;">课程</th>
                     <th>出勤率</th>
                     <th style="width: 40px"></th>
                   </tr>
+                  </thead>
+                  <tbody>
                   <tr>
                     <td>1.</td>
                     <td>Update software</td>
@@ -59,6 +62,7 @@
                     </td>
                     <td><span class="label label-success">90%</span></td>
                   </tr>
+                  </tbody>
                 </table>
               </div>
 			</div>
@@ -67,5 +71,25 @@
 		</div>
 	</div>
 	<!-- /. WRAPPER  -->
+	<script type="text/javascript">
+		var ClassedInit= function(){
+			$.ajax({  
+			type: 'GET',  
+			url: 'restacademy.do',  
+			contentType: 'application/json',  
+			success: function(data){
+				var str = "";
+				var index = 1;
+				$.each(data.datas,function(){
+					str += "<tr><td>";
+					console.log(this.aname);
+					$("#findaname").append("<option>"+this.aname+"</option>");
+				});
+			},  
+			error: function() {toastr.error("操作异常！");},  
+			timeout:60000  
+			});  	
+		};
+	</script>
 </body>
 </html>

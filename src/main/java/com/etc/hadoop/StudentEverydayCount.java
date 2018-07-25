@@ -26,7 +26,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 
 
-public class AcademyCount {
+public class StudentEverydayCount {
 	static  String INPUT_PATH="hdfs://hadoop:9000/input/";
 	static  String OUTPUT_PATH="hdfs://hadoop:9000/output/";
 	private static URI uri = null;
@@ -65,7 +65,7 @@ public class AcademyCount {
 	private static void readFromServer() throws IOException{
 		FileSystem fs = FileSystem.get(uri,new Configuration());
 		FSDataInputStream fsdis = fs.open(new Path("/output/part-r-00000"));
-		FileOutputStream fos = new FileOutputStream("./src/main/resources/static/download/academyResult.txt");
+		FileOutputStream fos = new FileOutputStream("./src/main/resources/static/download/studentEverydayResult.txt");
 		IOUtils.copyBytes(fsdis, fos, 1024, true);
 		IOUtils.closeStream(fsdis);
 		fs.close();
@@ -87,16 +87,8 @@ public class AcademyCount {
 				throws IOException, InterruptedException {
 			
 			String[] splits = v1.toString().split("\t");
-			String time=splits[3];
-			String[] timeStamp = time.split(" ");
-			String day=timeStamp[0];
-			String month=timeStamp[1];
-			int date=Integer.parseInt(timeStamp[2]);
-			int status=Integer.parseInt(splits[2]);
-			int w2=0;
-			int w1=0;
 			
-			context.write(new Text(splits[1]+"\t"+splits[2]),new LongWritable(1));
+			context.write(new Text(splits[0]+"\t"+splits[3]),new LongWritable(1));
 			}
 		}
 		

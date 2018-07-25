@@ -8,7 +8,7 @@
 <title>考勤管理</title>
 <script type="text/javascript" th:src="@{/js/loader.js}"></script>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
   <div class="wrapper">
 		<div th:replace="part/main::#header"></div>
 		<div th:replace="part/main::#menu"></div>
@@ -86,12 +86,7 @@
 											<table class="table table-bordered table-hover" id="attTable" name="attTable" style="font: '黑体';">
 												<thead>
         											<tr>
-        												<td>学号</td>
-        												<td>第一周</td>
-        												<td>第二周</td>
-        												<td>第三周</td>
-        												<td>第四周</td>
-        												<td>第五周</td>
+        												
         											</tr>
     											</thead>
     											<tbody>
@@ -100,7 +95,9 @@
 											</form>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+												<a th:href="@{/download/classAttend.csv}" download="classAttend.csv">
 												<button id="btn_submit" class="btn btn-primary">生成文件</button>	
+												</a>
 											</div>
 									</div>
 								</div>
@@ -354,7 +351,7 @@
 						else if(data.data.attend[i][j]=="1")
 							str+="<td><span class='label label-success'>正常</label></td>";
 						else if(data.data.attend[i][j]=="2")
-							str+="<td><span class='label label-primary'>迟到</label></td>";
+							str+="<td><span class='label label-warning'>迟到</label></td>";
 					}	
 					str+="</tr>"
 					$("#attTable tbody").append(str);

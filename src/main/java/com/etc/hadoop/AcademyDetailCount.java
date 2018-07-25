@@ -27,13 +27,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 
 public class AcademyDetailCount {
-	static  String INPUT_PATH="hdfs://classes14:9000/JJ/input/";
-	static  String OUTPUT_PATH="hdfs://classes14:9000/JJ/output/";
+	static  String INPUT_PATH="hdfs://hadoop:9000/input/";
+	static  String OUTPUT_PATH="hdfs://hadoop:9000/output/";
 	private static URI uri = null;
 	
 	static{
 		try {
-			uri = new URI("hdfs://classes14:9000");
+			uri = new URI("hdfs://hadoop:9000");
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +64,7 @@ public class AcademyDetailCount {
 	}
 	private static void readFromServer() throws IOException{
 		FileSystem fs = FileSystem.get(uri,new Configuration());
-		FSDataInputStream fsdis = fs.open(new Path("/JJ/output/part-r-00000"));
+		FSDataInputStream fsdis = fs.open(new Path("/output/part-r-00000"));
 		FileOutputStream fos = new FileOutputStream("./src/main/resources/static/download/attendanceDetailResult.txt");
 		IOUtils.copyBytes(fsdis, fos, 1024, true);
 		IOUtils.closeStream(fsdis);
@@ -75,7 +75,7 @@ public class AcademyDetailCount {
 		
 		
 		Path lSrc = new Path("./src/main/resources/static/download/"+filename);
-		Path dSrc = new Path("/JJ/input/");
+		Path dSrc = new Path("/input/");
 		fs.copyFromLocalFile(lSrc, dSrc);
 		fs.close();
 	}
@@ -89,7 +89,7 @@ public class AcademyDetailCount {
 			String[] splits = v1.toString().split("\t");
 			
 			
-			context.write(new Text(splits[3]+"\t"+splits[1]+"\t"+splits[2]),new LongWritable(1));
+			context.write(new Text(splits[3]+"\t"+splits[1]),new LongWritable(1));
 			}
 		}
 		

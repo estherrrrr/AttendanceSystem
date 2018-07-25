@@ -26,7 +26,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 
 
-public class AcademyCount {
+public class TopClassesCount {
 	static  String INPUT_PATH="hdfs://hadoop:9000/input/";
 	static  String OUTPUT_PATH="hdfs://hadoop:9000/output/";
 	private static URI uri = null;
@@ -65,7 +65,7 @@ public class AcademyCount {
 	private static void readFromServer() throws IOException{
 		FileSystem fs = FileSystem.get(uri,new Configuration());
 		FSDataInputStream fsdis = fs.open(new Path("/output/part-r-00000"));
-		FileOutputStream fos = new FileOutputStream("./src/main/resources/static/download/academyResult.txt");
+		FileOutputStream fos = new FileOutputStream("./src/main/resources/static/download/topClassesResult.txt");
 		IOUtils.copyBytes(fsdis, fos, 1024, true);
 		IOUtils.closeStream(fsdis);
 		fs.close();
@@ -96,7 +96,7 @@ public class AcademyCount {
 			int w2=0;
 			int w1=0;
 			
-			context.write(new Text(splits[1]+"\t"+splits[2]),new LongWritable(1));
+			context.write(new Text(splits[1]),new LongWritable(1));
 			}
 		}
 		

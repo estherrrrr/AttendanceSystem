@@ -32,7 +32,10 @@
 				</a>
 				<ul class="dropdown-menu dropdown-user">
 					<li>
-					<a href="logout" style="color:#337ab7;"><i class="fa fa-sign-out fa-fw" style="color:#337ab7;"></i>
+					<a href="pwd" style="color:#337ab7;"><i class="fa fa-sign-out fa-fw" style="color:#337ab7;"></i>
+						修改密码
+					</a>
+					<a href="logout" style="color:#337ab7;"><i class="fa fa-key fa-fw" style="color:#337ab7;"></i>
 						登出
 					</a>
 					</li>
@@ -77,6 +80,33 @@
 		    </ul>
 		</section>
 	</aside>
+	<div class="content-wrapper">
+	</div>
   </div>
+  
+  <script>
+  	$(function() {
+	
+			//2.初始化Button的点击事件
+			var oButtonInit = new ButtonInit();
+			oButtonInit.Init();
+			
+			AcademyInit();
+			
+		});
+		var ButtonInit = function() {
+			var oInit = new Object();
+	
+			oInit.Init = function() {
+				
+			};
+	
+			return oInit;
+		};
+		var pwd= function(){
+			$("#myModal").modal();
+		}
+		
+  </script>
   </body>
 </html>

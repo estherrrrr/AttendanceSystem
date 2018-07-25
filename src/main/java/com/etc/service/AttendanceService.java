@@ -1,9 +1,13 @@
 package com.etc.service;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,7 +78,7 @@ public class AttendanceService {
 		}
 		return true;
 	}
-	public Map<String,Object> attendanceDetail(int cid){
+	public Map<String,Object> attendanceDetail(int cid) throws IOException{
 		Map<String,List<Integer>> map=new HashMap<String,List<Integer>>();
 		Map<String,Object> result=new HashMap<String,Object>();
 		Calendar cal = Calendar.getInstance();
@@ -121,6 +125,34 @@ public class AttendanceService {
 		result.put("student", course);
 		result.put("attend",map);
 		result.put("count",count);
+		File file = new File("./src/main/resources/static/download/classAttend.csv");//换成你的文件名 
+		
+		if (file.isFile())
+			file.delete();
+		file = new File("./src/main/resources/static/download/classAttend.csv");
+		file.createNewFile();
+		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file ), "gbk" );
+		BufferedWriter bw = new BufferedWriter(out);
+		String str="学号";
+		for(int i=0;i<count;i++){
+			str+=",第"+(i+1)+"周";
+		}
+		bw.write(str+"\n");
+		for(Course c:course){
+			str=c.getSnumber();
+			List<Integer> l2=map.get(c.getSnumber());
+			for(int i=0;i<count;i++){
+				if(l2.get(i)==0)
+					str+=",";
+				else if(l2.get(i)==1)
+					str+=",√";
+				else if(l2.get(i)==2)
+					str+=",LATE";
+			}
+			bw.write(str+"\n");
+			System.out.println(str);	
+		}	
+		bw.close();	
 		return result;
 	}
 

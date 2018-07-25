@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<title>教师首页</title>
+<script type="text/javascript" th:src="@{/js/loader.js}"></script>
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini">
+  <div class="wrapper">
+		<div th:replace="part/teacherMain::#header"></div>
+		<div th:replace="part/teacherMain::#menu"></div>
+		<!-- /. NAV SIDE  -->
+		<div class="content-wrapper">
+			<section class="content">
+							
+			<div class="box box-primary" style="width:100%;">
+              <div class="box-header with-border">
+                <h3 class="box-title">我的课程</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="panel-body p-0">
+                <table class="table table-bordered table-hover">
+                  <thead> 
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th style="width: 30%;">课程</th>
+                    <th>出勤率</th>
+                    <th style="width: 40px"></th>
+                  </tr>
+                  </thead>
+                  <tbody id="tbMain"></tbody>
+                  
+                </table>
+              </div>
+			</div>
+			</section>
+			<!-- /. PAGE INNER  -->
+		</div>
+	</div>
+	<!-- /. WRAPPER  -->
+	<script type="text/javascript">
+	
+		$.queryAll("showteacherclasses.do",function(res){
+			var tbody = document.getElementById('tbMain'); 
+			
+			for(var i = 0;i < res.data.length; i++){ //遍历一下json数据 
+                   var trow = getDataRow(i+1,res.data[i]); //定义一个方法,返回tr数据  传入一个map
+                   tbody.appendChild(trow); 
+            } 
+		});
+ function getDataRow(count,h){ 
+   
+   var row = document.createElement('tr'); //创建行 
+   
+   var idCell = document.createElement('td'); //创建第一列id 
+   idCell.innerHTML = count; //填充数据 
+   row.appendChild(idCell); //加入行 ，下面类似 
+   
+   var nameCell = document.createElement('td');//创建第二列name 
+   nameCell.innerHTML = h.classname; 
+   row.appendChild(nameCell); 
+   
+   var jobCell = document.createElement('td');//创建第三列
+   var oDiv=document.createElement('div');
+   oDiv.setAttribute('class','progress progress-xs');
+   var number=h.num.toFixed(2) ;
+   var childDiv=document.createElement('div');
+   
+   if(number<60.0){
+       childDiv.setAttribute('class','progress-bar progress-bar-danger');
+       childDiv.style.width=number+"%";
+   }
+   else if(number<80){
+       childDiv.setAttribute('class','progress-bar progress-bar-warning');
+       childDiv.style.width=number+"%";
+   }
+   else {
+       childDiv.setAttribute('class','progress-bar progress-bar-success');
+       childDiv.style.width=number+"%";
+   }
+   oDiv.appendChild(childDiv); 
+   jobCell.appendChild(oDiv);
+   row.appendChild(jobCell); 
+  
+   var labelCell = document.createElement('td');//创建第四列
+   var labelspan = document.createElement('span');
+   if(number<60.0){
+       labelspan.setAttribute('class','label label-danger');
+       labelspan.innerHTML=number+"%";
+   }
+   else if(number<80){
+       labelspan.setAttribute('class','label label-warning');
+       labelspan.innerHTML=number+"%";
+   }
+   else {
+       labelspan.setAttribute('class','label label-success');
+       labelspan.innerHTML=number+"%";
+   }
+   labelCell.appendChild(labelspan); 
+   row.appendChild(labelCell);
+   
+   return row; //返回tr数据   
+   }   
+	</script>
+</body>
+</html>

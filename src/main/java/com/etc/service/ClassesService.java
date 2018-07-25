@@ -42,6 +42,16 @@ public class ClassesService {
 		List<Classes> classes=classesMapper.selectByExample(ce);
 		return classes.get(0);
 	}
+	public List<Integer> findByTid(int tid){
+		ClassesExample ce=new ClassesExample();
+		ce.createCriteria().andTidEqualTo(tid);
+		List<Integer> list=new ArrayList<Integer>();
+		List<Classes> classes=classesMapper.selectByExample(ce);
+		for(Classes c:classes)
+			list.add(c.getId());
+		return list;
+	}
+	
 
 	public boolean doAdd(Classes classes){
 		TeacherExample te=new TeacherExample();

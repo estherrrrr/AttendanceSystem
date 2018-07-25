@@ -20,8 +20,34 @@
 						<div class="box box-primary">
 							<div class="box-header with-border">考勤管理</div>
 							<div class="panel-body">
+								<form id="formSearch" class="form-horizontal">
+									<div class="form-group" style="margin:5px">
+										<label class="control-label col-sm-2" for="findcname">课程名称:</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" id="findcname"/>
+										</div>
+										<label class="control-label col-sm-1" for="findtname">教师:</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" id="findtname"/>
+										</div>									
+										<label class="control-label col-sm-1" for="findaname">学院:</label>
+										<div class="col-sm-2">
+											<select class="form-control" id="findaname" name="findaname">
+													<option value="">全部</option> <!-- 此处value="",后台才能拿到空串 -->
+											</select>
+										</div>
+										<div class="col-sm-2" style="text-align:center;">
+											<button type="button" id="btn_query" class="btn btn-primary">
+												<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查 询
+											</button>
+										</div>
+									</div>
+								</form>
 								<div id="toolbar" class="btn-group">
-								
+									
+									<button id="btn_import" type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadModal">
+										<span class="glyphicon glyphicon-import" aria-hidden="true"></span> 导入考勤数据
+									</button>
 									
 								</div>
 								<!-- @@@@@@@@@@@@     表格数据     @@@@@@@@@@@@@ -->
@@ -30,7 +56,25 @@
 							</div>
 						</div>
 						</div>
-
+						<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    						<div class="modal-dialog">
+       							 <div class="modal-content">
+            						<div class="modal-header">
+               							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                							<h4 class="modal-title" id="myModalLabel">上传考勤数据</h4>
+            						</div>
+           							<div class="modal-body">           								
+    									<form id="uploadForm" enctype="multipart/form-data">
+    										<input id="file" type="file" name="file"/>
+										</form>								
+           							</div>
+   									<div class="modal-footer">
+   										<button id="btn_upload" class="btn btn-primary">上传</button>	
+                						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>	
+            						</div>
+        						</div><!-- /.modal-content -->
+    						</div><!-- /.modal -->
+						</div>
 						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
@@ -39,13 +83,21 @@
 										<button type="button" class="close" data-dismiss="modal"
 											aria-hidden="true">×</button>
 											<form id="editForm">
-											<table class="table" style="font: '黑体';">
-												
+											<table class="table table-bordered table-hover" id="attTable" name="attTable" style="font: '黑体';">
+												<thead>
+        											<tr>
+        												
+        											</tr>
+    											</thead>
+    											<tbody>
+    											</tbody>
 											</table>
 											</form>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+												<a th:href="@{/download/classAttend.csv}" download="classAttend.csv">
 												<button id="btn_submit" class="btn btn-primary">生成文件</button>	
+												</a>
 											</div>
 									</div>
 								</div>
@@ -154,7 +206,7 @@
 	                    valign: "middle",
 	                    formatter: function(value, row, index) {   //添加链接
 							return [
-								'<a href="#" data-toggle="modal" data-target="#myModal" onclick="detail('+row.oid+')"><center><span class="glyphicon glyphicon-list-alt"></span></center></a>'
+								'<a data-toggle="modal"  onclick="detail('+row.id+')"><center><span class="glyphicon glyphicon-list-alt"></span></center></a>'
 							].join("")
 						}
 					} ]/* ,  //改造JsonResult后就不需要配置这个属性了
@@ -176,9 +228,12 @@
 					pageNum: params.offset,  //页码
 					//search: params.search,  //搜索框
 					sort: params.sort,    //排序字段
-					order: params.order  //排序方式
+					order: params.order,  //排序方式
+					tname : $("#findtname").val(),
+					cname : $("#findcname").val(),
+					aname : $("#findaname").val()
 				};
-				//console.log(temp);
+				console.log(temp);
 				return temp;
 			};
 	
@@ -220,6 +275,21 @@
 									success: function(data){
 									    console.log(1);
 										$("#uploadModal").modal("hide");
+										toastr.success(data.message);
+										$.ajax({  
+									type: 'GET',  
+									url: 'restinsert.do',  
+									cache: false,
+               						processData: false,
+                					contentType: false, 
+									success: function(data){
+									    console.log(1);
+										$("#uploadModal").modal("hide");
+										toastr.success(data.message);
+									},  
+									error: function() {toastr.error("导入失败！");},  
+									timeout:60000  
+								});
 									},  
 									error: function() {toastr.error("操作异常！");},  
 									timeout:60000  
@@ -256,7 +326,43 @@
 	    		toastr.error(res.message);
 	    	}
 		}
-				
+		function detail(id){
+			$.ajax({  
+			type: 'GET',  
+			url: id+'/showtable.do',  
+			contentType: 'application/json',  
+			success: function(data){
+				$("#attTable thead").html('');
+				var str="<tr><td>学号</td>";
+				for(var i=0;i<data.data.count;i++){
+					str+="<td>第";
+					str+=i+1;
+					str+="周</td>";
+				}
+				str+="</tr>";
+				$("#attTable thead").append(str);
+				$("#attTable tbody").html('');
+				for(var i in data.data.attend){
+					str="<tr><td>"+i+"</td>";
+					for(var j in data.data.attend[i])
+					{
+						if(data.data.attend[i][j]=="0")
+							str+="<td><span class='label label-danger'></label></td>";
+						else if(data.data.attend[i][j]=="1")
+							str+="<td><span class='label label-success'>正常</label></td>";
+						else if(data.data.attend[i][j]=="2")
+							str+="<td><span class='label label-warning'>迟到</label></td>";
+					}	
+					str+="</tr>"
+					$("#attTable tbody").append(str);
+				}
+					
+				$("#myModal").modal();
+			},  
+			error: function() {toastr.error("操作异常！");},  
+			timeout:60000  
+			});  	
+		}		
 	</script>
 	<!-- /. WRAPPER  -->
 </body>

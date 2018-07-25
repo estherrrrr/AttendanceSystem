@@ -17,11 +17,13 @@ public class AcademyService {
 	public List<Academy> findAll(){
 		return academyMapper.selectByExample(null);
 	}
+	
 	public Academy findByAname(String aname){
+		aname=aname.replace("\"", "");
 		AcademyExample ae=new AcademyExample();
 		ae.createCriteria().andAnameEqualTo(aname);
 		List<Academy> list=academyMapper.selectByExample(ae);
 		if(list.size()>0)return list.get(0);
-		else return null;
+		else  return null;
 	}
 }

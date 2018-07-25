@@ -28,11 +28,14 @@
 	          <li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
 					<span th:text="${session.admin.tname }"></span>
-					<span id="tid" th:text="${session.admin.id}" style="display:none;"></span>
+					<span id="tnumber" th:text="${session.admin.tnumber}" style="display:none;"></span>
 					<i class="fa fa-user fa-fw" style="color:#ffffff;"></i> <i class="fa fa-caret-down" style="color:#ffffff;"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-user">
 					<li>
+					<a href="pwd" style="color:#337ab7;"><i class="fa fa-sign-out fa-fw" style="color:#337ab7;"></i>
+						修改密码
+					</a>
 					<a href="logout" style="color:#337ab7;"><i class="fa fa-sign-out fa-fw" style="color:#337ab7;"></i>
 						登出
 					</a>
