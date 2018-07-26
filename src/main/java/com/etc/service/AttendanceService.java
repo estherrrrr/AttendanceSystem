@@ -62,7 +62,8 @@ public class AttendanceService {
 				Date date=sf.parse(str[2]);
 				attendance.setAdate(date);
 				attendance.setAstatus(Integer.parseInt(str[5]));
-				attendance.setCid(map.get(str[4]));
+				if(map.get(str[4])!=null)
+					attendance.setCid(map.get(str[4]));
 				attendance.setSnumber(str[1]);
 				
 				AttendanceExample ae=new AttendanceExample();
