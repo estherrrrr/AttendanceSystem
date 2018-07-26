@@ -27,6 +27,7 @@ public class ClassesControlelr {
 	@Autowired
 	private ClassesService classesService;
 	
+	//获取课程列表
 	@GetMapping("/restclasses")
 	public JsonResult<Map<String,Object>> showClasses(int pageSize,int pageNum,
 			String sort,String order,String cname,String tname,String aname){
@@ -37,6 +38,7 @@ public class ClassesControlelr {
 		PageInfo<Map<String,Object>> pageInfo = new PageInfo<Map<String,Object>>(list);
 		return new JsonResult<Map<String,Object>>(pageInfo);
 	}
+	//获取教师id对应课程
 	@GetMapping("/{id}/restclasses")
 	public JsonResult<Map<String,Object>> showMyClasses(@PathVariable int id,int pageSize,int pageNum,
 			String sort,String order){
@@ -47,19 +49,19 @@ public class ClassesControlelr {
 		PageInfo<Map<String,Object>> pageInfo = new PageInfo<Map<String,Object>>(list);
 		return new JsonResult<Map<String,Object>>(pageInfo);
 	}
-	
+	//删除课程
 	@DeleteMapping("/restclasses")
 	public JsonResult deleteClasses(@RequestBody List<Classes> classes){
 		classesService.doRemove(classes);
 		return new JsonResult("删除成功");
 	}
-	
+	//添加课程
 	@PostMapping("/restclasses")
 	public JsonResult addClasses(@RequestBody Classes classes){
 		classesService.doAdd(classes);
 		return new JsonResult("添加成功");
 	}
-	
+	//修改课程
 	@PutMapping("/restclasses")
 	public JsonResult updateClasses(@RequestBody Classes classes){
 		classesService.doModify(classes);

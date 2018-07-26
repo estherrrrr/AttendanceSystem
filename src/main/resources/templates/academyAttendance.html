@@ -34,6 +34,7 @@
 		var myChart = echarts.init(document.getElementById('quantity-bar-echarts'));
        	var itemStyle = {
 		    normal: {
+		        
 		    },
 		    emphasis: {
 		        barBorderWidth: 1,
@@ -80,20 +81,20 @@
                 itemStyle: itemStyle,
                 data:[res.data[0].软件学院,res.data[0].数学科学学院,res.data[0].物理科学与技术学院,res.data[0].管理学院,res.data[0].法学院]
             	},
+            	{
+				name:'迟到率',
+                type:'bar',
+                stack: '概率',
+                itemStyle: itemStyle,
+                data:[res.data[2].软件学院,res.data[2].数学科学学院,res.data[2].物理科学与技术学院,res.data[2].管理学院,res.data[2].法学院]
+                },
 				{
 				name:'缺勤率',
                 type:'bar',
                 stack: '概率',
                 itemStyle: itemStyle,
                 data:[res.data[1].软件学院,res.data[1].数学科学学院,res.data[1].物理科学与技术学院,res.data[1].管理学院,res.data[1].法学院]
-            	},
-				{
-				name:'迟到率',
-                type:'bar',
-                stack: '概率',
-                itemStyle: itemStyle,
-                data:[res.data[2].软件学院,res.data[2].数学科学学院,res.data[2].物理科学与技术学院,res.data[2].管理学院,res.data[2].法学院]
-                }
+            	}
 			]
 		};
     	myChart.setOption(option);

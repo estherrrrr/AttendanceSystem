@@ -25,7 +25,7 @@ import com.github.pagehelper.PageInfo;
 public class TeacherController {
 	@Autowired
 	private TeacherService teacherService;
-	
+	//获取教师列表
 	@GetMapping("/restteacher")
 	public JsonResult<Map<String,Object>> showTeacher(int pageSize,int pageNum,
 			String sort,String order,String tname,String aname){
@@ -36,19 +36,19 @@ public class TeacherController {
 		PageInfo<Map<String,Object>> pageInfo = new PageInfo<Map<String,Object>>(list);
 		return new JsonResult<Map<String,Object>>(pageInfo);
 	}
-	
+	//删除教师
 	@DeleteMapping("/restteacher")
 	public JsonResult deleteClasses(@RequestBody List<Teacher> teacher){
 		teacherService.doRemove(teacher);
 		return new JsonResult("删除成功");
 	}
-	
+	//添加教师
 	@PostMapping("/restteacher")
 	public JsonResult addClasses(@RequestBody Teacher teacher){
 		teacherService.doAdd(teacher);
 		return new JsonResult("添加成功");
 	}
-	
+	//修改教师信息
 	@PutMapping("/restteacher")
 	public JsonResult updateClasses(@RequestBody Teacher teacher){
 		teacherService.doModify(teacher);

@@ -9,8 +9,8 @@
 <script type="text/javascript" th:src="@{/js/loader.js}"></script>
 </head>
 <body class="hold-transition skin-blue-light sidebar-mini">
-<div th:replace="part/main::#header"></div>
-<div th:replace="part/main::#menu"></div>
+<div th:replace="part/studentMain::#header"></div>
+<div th:replace="part/studentMain::#menu"></div>
   <div class="wrapper" >
 		
 		<!-- /. NAV SIDE  -->
@@ -21,7 +21,7 @@
 	        			<div class="box box-primary" style="margin-top:20%;padding:5px 15px;">
 				            <div class="box-header with-border">
 				              <h3 class="box-title">修改密码</h3>
-				             <input type="hidden" id="pwd" name="pwd" th:value="${session.admin.username }"/>
+				             <input type="hidden" id="pwd" name="pwd" th:value="${session.admin.snumber }"/>
 				             <input type="hidden" id="sex" name="sex" th:value="${session.sex }"/>
 				            </div>
 				            <div class="box-body" style="font: '微软雅黑';padding:10px;">
@@ -75,7 +75,7 @@
 									success: function(data){
 									    if(data.message=="修改成功！"){
 									    	toastr.success(data.message);
-									    	window.location.href="adminMain.do";
+									    	window.location.href="studentMain.do";
 									    }
 									    else
 									    	toastr.error(data.message);										

@@ -46,6 +46,7 @@ public class MD5Service {
 	        else
 	            return false;
 	}
+	//加密数据库中默认密码
 	public boolean encodeAllPwd() throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		TeacherExample te=new TeacherExample();
 		TeacherExample.Criteria tec=te.createCriteria().andPwdEqualTo("123456");

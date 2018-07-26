@@ -61,33 +61,14 @@ public class AttendanceController {
 	
 	private List<Integer> classesid=null;//该学院所有课程id
 	
-	@GetMapping("changepsw")
-	public JsonResult<List<String>> changePsw(){
-		List<String> list = new LinkedList<String>();
-		list.add("success");
-		return new JsonResult(list);
-	}
+	//显示课程考勤
 	@GetMapping("/{id}/showtable")
 	public JsonResult<Map<String,Object>> getClassTable(@PathVariable int id) throws IOException{
 		return new JsonResult(attendanceService.attendanceDetail(id));
 	}
+	//显示学校总考勤
 	@GetMapping("/showschool")
 	public JsonResult<List<Map<String,List<Double>>>> showSchool() throws IOException, ClassNotFoundException, URISyntaxException, InterruptedException{
-		/*List<Attendance> attendances=attendanceService.findAll();
-		FileOutputStream fos = new FileOutputStream("./src/main/resources/static/download/attendance.txt");
-		OutputStreamWriter writer = new OutputStreamWriter(fos);
-		for(Attendance a:attendances){
-			writer.write(a.getSnumber() + "\t");
-			 writer.write(String.valueOf(a.getCid()) + "\t");
-			 writer.write(String.valueOf(a.getAstatus()) + "\t");
-             writer.write(a.getAdate()+"\r\n");
-		}
-		 writer.flush();
-         writer.close();
-         
-         SchoolCount.test("attendance.txt");*/
-       
-         
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
 		long today=c.getTimeInMillis();
@@ -187,7 +168,6 @@ public class AttendanceController {
 					}	
 				}
 					
-				
 			}
 	     }catch(Exception e){e.printStackTrace();}
 		reader.close();
@@ -212,16 +192,11 @@ public class AttendanceController {
 			}
 		}
 		
-		
-
 		return new JsonResult<List<Map<String,List<Double>>>>(list);
 	}
-	
+	//显示学院总考勤
 	@GetMapping("/showacademy")
 	public JsonResult<List<Map<String,Double>>> showAcademy() throws ClassNotFoundException, IOException, URISyntaxException, InterruptedException{
-		
-		//AcademyCount.test("attendance.txt");
-		
 		List<Academy> academies=academyService.findAll();//所有学院
 		Map<String,List<Integer>> classes=new HashMap<String,List<Integer>>();//每个学院其下的所有课程
 		Map<String,Double> attendance=new HashMap<String,Double>();//所有学院出勤数
@@ -248,13 +223,15 @@ public class AttendanceController {
 				for(Academy academy:academies){
 					
 					if(classes.get(academy.getAname()).contains(tid)){
-						oldclass=classesnum.get(academy.getAname())+1;
-						classesnum.put(academy.getAname(), oldclass);
+						
 						
 						if(info[1].equals("1")){//该学院所有未迟到的人数
 							Double oldnum=attendance.get(academy.getAname());
 							oldnum+=Double.parseDouble(info[2]);
 							attendance.put(academy.getAname(),oldnum);
+							
+							oldclass=classesnum.get(academy.getAname())+1;
+							classesnum.put(academy.getAname(), oldclass);
 						}else{//该学院所有迟到的人数
 							Double oldnum=late.get(academy.getAname());
 							oldnum+=Double.parseDouble(info[2]);
@@ -273,6 +250,7 @@ public class AttendanceController {
 			Double attnum=attendance.get(aname);
 			Double latenum=late.get(aname);
 			int total=classesnum.get(aname)*30*4;
+			System.out.println(total);
 			
 			double rate = (attnum+latenum)/total*100;
 			rate = (double)Math.round(rate*100)/100;
@@ -289,18 +267,12 @@ public class AttendanceController {
 		return new JsonResult<List<Map<String,Double>>>(result);
 	}
 	
-	
-	
+	//显示学院考勤细节
 	@GetMapping("/showacademydetail")
 	public JsonResult<List<Double>> showAcademyDetail(HttpServletRequest request) throws ClassNotFoundException, IOException, URISyntaxException, InterruptedException{
-		
 		String  aname=(String) request.getSession().getAttribute("academy"); 
-		
 		Academy academy=academyService.findByAname(aname);
 		classesid=classesService.findByAid(academy.getId());//该学院所有课程id
-		
-		//AcademyDetailCount.test("attendance.txt");
-		//TopClassesCount.test("attendance.txt");
 		
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
@@ -309,7 +281,6 @@ public class AttendanceController {
 		Map<String,Double> att=new HashMap<String,Double>();
 		att.put("Mon", 0.0);att.put("Tue", 0.0);att.put("Wed", 0.0);att.put("Thu", 0.0);att.put("Fri", 0.0);
 		Map<String,Integer> classesnum=new HashMap<String,Integer>();//某天已经上过的课程数
-		
 		
 		File file=new File("./src/main/resources/static/download/attendanceDetailResult.txt");
 	    BufferedReader reader=null;
@@ -364,10 +335,9 @@ public class AttendanceController {
 		return list;
 		
 	}
-	
+	//显示课程考勤排行
 	@GetMapping("/showtopclass")
 	public JsonResult<List<Map<String,Object>>> showTopClass(HttpServletRequest request) throws IOException, ClassNotFoundException, URISyntaxException, InterruptedException{
-		
 		try { 
 			Thread.sleep(500); 
 			} catch (InterruptedException e) { 
@@ -407,13 +377,11 @@ public class AttendanceController {
         });
 		return new JsonResult<List<Map<String,Object>>>(list);
 	}
-	
+	//显示教师对应课程考勤统计
 	@GetMapping("/showteacherclasses")
 	public JsonResult<List<Map<String,Object>>> showTeacherClasses(HttpServletRequest request) throws IOException{
 		Teacher teacher=(Teacher) request.getSession().getAttribute("admin");
-		
 		classesid=classesService.findByTid(teacher.getId());//教师旗下所有课程
-		
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();//课程名-出勤率
 		
 		File file=new File("./src/main/resources/static/download/topClassesResult.txt");
@@ -436,15 +404,11 @@ public class AttendanceController {
 		
 		return new JsonResult<List<Map<String,Object>>>(list);
 	}
-	
+	//显示学生个人考勤统计
 	@GetMapping("/showstudentattendance")
 	public JsonResult<Map<String,Integer>> showStudentAttendance(HttpServletRequest request) throws IOException, ClassNotFoundException, URISyntaxException, InterruptedException, ParseException{
 		Student student=(Student) request.getSession().getAttribute("admin");
-		
-		StudentEverydayCount.test("attendance.txt");
-		
 		Map<String,Integer> map=new TreeMap<String,Integer>();
-		
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String dayAfter=null;

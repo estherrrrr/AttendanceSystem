@@ -19,6 +19,7 @@ public class AcademyController {
 	@Autowired
 	private AcademyMapper academyMapper;
 	
+	//获取学院列表
 	@GetMapping("/restacademy")
 	public JsonResult<Academy> getAcademy(){
 		List<Academy> list = academyMapper.selectByExample(null);
